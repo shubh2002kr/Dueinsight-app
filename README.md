@@ -12,11 +12,13 @@ DueInsight is a Streamlit-based dashboard for Due Diligence & Litigation Researc
 Frontend: Streamlit + HTML/CSS
 Backend: Python
 Libraries: streamlit, requests, beautifulsoup4, lxml
+
 📂 Project Structure
 dueinsight-app/
 │── app.py  
 │── requirements.txt  
 │── README.md  
+
 ⚙️ Run Locally
 git clone https://github.com/your-username/dueinsight-app.git
 cd dueinsight-app
@@ -30,14 +32,10 @@ Push code to GitHub
 Go to Streamlit Cloud
 Click Deploy New App
 Select repo → Deploy
+
 ⚠️ Notes
 Internet required
 Uses live data (may face rate limits)
-📌 Future Plans
-User login system
-Database integration
-Analytics dashboard
-Performance improvements
-👨‍💻 Author
 
+👨‍💻 Author
 Shubh Kumar
