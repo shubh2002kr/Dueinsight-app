@@ -1,73 +1,43 @@
 🚀 DueInsight — DD Workstation
 
-DueInsight is an advanced Due Diligence & Litigation Research Dashboard built using Streamlit.
-It helps users quickly analyze people, companies, legal records, news, and digital footprint from multiple sources in one place.
+DueInsight is a Streamlit-based dashboard for Due Diligence & Litigation Research. It helps you quickly analyze people, companies, legal records, news, and online presence in one place.
 
 🌟 Features
-🔍 Profile Research
-Google-based deep search (Biography, Contacts, LinkedIn, etc.)
-⚖️ Litigation & Court Records
-Indian Kanoon integration
-Quick access to eCourts, High Court, Supreme Court
-📰 Media Coverage
-Real-time news via Google News RSS
-🌐 Digital Footprint
-LinkedIn, Twitter (X), Instagram, YouTube search links
-🎨 Modern UI
-Custom animations
-Dark theme dashboard
-Interactive cards & layout
+🔍 Profile Research – Search bio, contacts, LinkedIn
+⚖️ Litigation Records – Indian Kanoon + court links
+📰 News – Live updates via Google News
+🌐 Digital Footprint – LinkedIn, X, Instagram, YouTube
+🎨 UI – Dark theme with modern layout
 🛠️ Tech Stack
-Frontend/UI: Streamlit + Custom HTML/CSS
+Frontend: Streamlit + HTML/CSS
 Backend: Python
-Libraries:
-streamlit
-requests
-beautifulsoup4
-lxml
+Libraries: streamlit, requests, beautifulsoup4, lxml
 📂 Project Structure
 dueinsight-app/
-│── app.py
-│── requirements.txt
-│── README.md
-⚙️ Installation & Run Locally
-1️⃣ Clone the Repository
+│── app.py  
+│── requirements.txt  
+│── README.md  
+⚙️ Run Locally
 git clone https://github.com/your-username/dueinsight-app.git
 cd dueinsight-app
-2️⃣ Install Dependencies
 pip install -r requirements.txt
-3️⃣ Run the App
 streamlit run app.py
 
-👉 App will open in browser at:
+👉 Open: http://localhost:8501
 
-http://localhost:8501
 🚀 Deployment
-
-This app is deployed using Streamlit Community Cloud.
-
-Steps:
 Push code to GitHub
 Go to Streamlit Cloud
-Click Deploy new app
-Select repo and app.py
-Click Deploy
+Click Deploy New App
+Select repo → Deploy
 ⚠️ Notes
-Requires internet connection (uses live scraping)
-Data sources:
-Google News RSS
-Indian Kanoon
-Some requests may fail due to rate limits or website restrictions
-📌 Future Improvements
-🔐 User authentication (login system)
-🗄️ Database integration
-📊 Advanced analytics dashboard
-⚡ Performance optimization (caching)
+Internet required
+Uses live data (may face rate limits)
+📌 Future Plans
+User login system
+Database integration
+Analytics dashboard
+Performance improvements
 👨‍💻 Author
 
 Shubh Kumar
-Computer Science Engineer
-
-📄 License
-
-This project is for educational and research purposes.
