@@ -456,9 +456,8 @@ with col2:
 p_name = person_input.strip()
 c_name = company_input.strip()
 
-# ---------------------------------------------------
-# LOGIC & RESULTS BLOCK
-# ---------------------------------------------------
+# ---------------------------------------------------# LOGIC & RESULTS BLOCK
+
 if p_name and c_name:
     search_term = f'"{p_name}" "{c_name}"'
     display_term = f"{p_name} at {c_name}"
@@ -470,23 +469,23 @@ else:
     display_term = c_name
 
 q_encoded = urllib.parse.quote(search_term)
-q_raw = urllib.parse.quote(display_term) 
+q_raw = urllib.parse.quote(display_term)       
 
-    # ── LinkedIn search query ────────────────────────────────────────────────
-    if p_name and c_name:
+# ── LinkedIn search query ────────────────────────────────────────────────
+if p_name and c_name:
         ln_query = f'site:linkedin.com/ intitle:"{p_name}" "{c_name}"'
-    elif p_name:
+elif p_name:
         ln_query = f'site:linkedin.com/ intitle:"{p_name}"'
-    else:
+else:
         ln_query = f'site:linkedin.com/company "{c_name}"'
 
-    ln_search_url = f"https://www.google.com/search?q={urllib.parse.quote(ln_query)}"
+ln_search_url = f"https://www.google.com/search?q={urllib.parse.quote(ln_query)}"
 
     # ── Data Fetching ────────────────────────────────────────────────────────
-    news               = []
-    litigation_results = []
+news               = []
+litigation_results = []
 
-    with st.spinner(f"Analysing {search_term}…"):
+with st.spinner(f"Analysing {search_term}…"):
 
         # Google News RSS
         try:
@@ -520,9 +519,9 @@ q_raw = urllib.parse.quote(display_term)
             pass
 
     # ── Layout ───────────────────────────────────────────────────────────────
-    l_col, r_col = st.columns(2)
+l_col, r_col = st.columns(2)
 
-    with l_col:
+with l_col:
         # ── Profile Research — Premium Animated iframe ────────────────────────
         import streamlit.components.v1 as components_profile
 
@@ -791,6 +790,7 @@ Output a structured summary of findings, case-wise details with party name, case
         <span class="qb-icon">📘</span><span class="qb-name">Manupatra</span><span class="qb-arr">↗</span>
         </a>
 
+        
         <a href="https://chatgpt.com/?q={ai_prompt_encoded}" target="_blank" class="quick-btn" style="--qc:#10a37f;">
         <span class="qb-icon">🤖</span><span class="qb-name">ChatGPT</span><span class="qb-arr">↗</span>
         </a>
@@ -1003,7 +1003,7 @@ body {{
 
         components_lit.html(lit_html, height=lt_h, scrolling=True)
 
-    with r_col:
+with r_col:
         import streamlit.components.v1 as components_news
 
         news_items = []
@@ -1275,7 +1275,7 @@ body {{
   }}
 
   .fp-card:hover .fp-icon-wrap {{
-    transform: scale(1.15) rotate(-4deg);
+    transform: scale(1.15) rotate(-4deg);~
   }}
 
   .fp-icon-wrap::after {{
@@ -1411,21 +1411,20 @@ body {{
         components.html(footprint_html, height=290, scrolling=False)
 
     # ── Compliance Section — rendered via st.components.v1.html() ─────────────
-    import streamlit.components.v1 as components
+import streamlit.components.v1 as components
+bg_card = "rgba(255,255,255,0.05)" if dark_mode else "rgba(255,255,255,0.85)"
+db_entry_bg = "rgba(255,255,255,0.06)" if dark_mode else "#ffffff"
+db_entry_bdr = "rgba(255,255,255,0.09)" if dark_mode else "rgba(0,0,0,0.09)"
+db_name_col = "#f0f0f0" if dark_mode else "#111111"
+db_desc_col = "#8a97a6" if dark_mode else "#666666"
+tab_idle_bg = "rgba(255,255,255,0.05)" if dark_mode else "rgba(0,0,0,0.05)"
+tab_idle_col = "#7a8a99" if dark_mode else "#666666"
+tab_bdr = "rgba(255,255,255,0.09)" if dark_mode else "rgba(0,0,0,0.09)"
+bar_bdr = "rgba(255,255,255,0.13)" if dark_mode else "rgba(0,0,0,0.13)"
+title_col = "#30b2c9"
+card_bdr = "rgba(255,255,255,0.10)" if dark_mode else "rgba(0,0,0,0.10)"
 
-    bg_card = "rgba(255,255,255,0.05)" if dark_mode else "rgba(255,255,255,0.85)"
-    db_entry_bg = "rgba(255,255,255,0.06)" if dark_mode else "#ffffff"
-    db_entry_bdr = "rgba(255,255,255,0.09)" if dark_mode else "rgba(0,0,0,0.09)"
-    db_name_col = "#f0f0f0" if dark_mode else "#111111"
-    db_desc_col = "#8a97a6" if dark_mode else "#666666"
-    tab_idle_bg = "rgba(255,255,255,0.05)" if dark_mode else "rgba(0,0,0,0.05)"
-    tab_idle_col = "#7a8a99" if dark_mode else "#666666"
-    tab_bdr = "rgba(255,255,255,0.09)" if dark_mode else "rgba(0,0,0,0.09)"
-    bar_bdr = "rgba(255,255,255,0.13)" if dark_mode else "rgba(0,0,0,0.13)"
-    title_col = "#30b2c9"
-    card_bdr = "rgba(255,255,255,0.10)" if dark_mode else "rgba(0,0,0,0.10)"
-
-    def db_card(icon, icon_bg, name, desc, badge, badge_color, url):
+def db_card(icon, icon_bg, name, desc, badge, badge_color, url):
         return f"""
         <a href="{url}" target="_blank" class="db-entry">
           <div class="db-hdr">
@@ -1439,7 +1438,7 @@ body {{
           </div>
         </a>"""
 
-    t1 = (
+t1 = (
         db_card("🇺🇸", "rgba(13,71,161,0.3)", "OFAC SDN List",
                 "U.S. Treasury sanctions — Specially Designated Nationals & blocked persons.",
                 "USA · Treasury", "#0d47a1", "https://sanctionssearch.ofac.treas.gov/") +
@@ -1460,7 +1459,7 @@ body {{
                 "Global · UN", "#c0392b", "https://www.un.org/securitycouncil/content/un-sc-consolidated-list")
     )
 
-    t2 = (
+t2 = (
         db_card("📈", "rgba(41,128,185,0.3)", "SEBI Orders",
                 "Securities & Exchange Board of India enforcement orders, adjudication & appeal rulings.",
                 "India · SEBI", "#2471a3",
@@ -1482,7 +1481,7 @@ body {{
                 "India · NCLT", "#148f77", "https://nclt.gov.in/en/content/orders")
     )
 
-    t3 = (
+t3 = (
         db_card("💳", "rgba(44,62,80,0.3)", "CIBIL Defaulters",
                 "Credit bureau suit-filed accounts and wilful defaulter records in India.",
                 "India · Credit", "#2c3e50", "https://suit.cibil.com/") +
@@ -1504,7 +1503,7 @@ body {{
                 "Global · Corporate", "#1d8348", f"https://opencorporates.com/companies?q={q_raw}")
     )
 
-    t4 = (
+t4 = (
         db_card("🧾", "rgba(39,174,96,0.3)", "GST Portal",
                 "Goods & Services Tax Network — GSTIN verification and taxpayer search.",
                 "India · GST", "#1e8449", "https://services.gst.gov.in/services/searchtp") +
@@ -1527,7 +1526,7 @@ body {{
                 "India · DGFT", "#2e4057", "https://www.dgft.gov.in/CP/?opt=iecieTrck")
     )
 
-    compliance_html = f"""<!DOCTYPE html>
+compliance_html = f"""<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -1696,7 +1695,7 @@ body {{
 </body>
 </html>"""
 
-    components.html(compliance_html, height=620, scrolling=False)
+components.html(compliance_html, height=620, scrolling=False)
 
 
 # ── Footer ────────────────────────────────────────────────────────────────────
@@ -1761,5 +1760,8 @@ st.markdown(f"""
     </span>
 </div>
 """, unsafe_allow_html=True)
+
+
+
 
 
