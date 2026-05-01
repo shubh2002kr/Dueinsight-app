@@ -459,15 +459,18 @@ c_name = company_input.strip()
 # ---------------------------------------------------
 # LOGIC & RESULTS BLOCK
 # ---------------------------------------------------
-if p_name or c_name:
-    search_term = p_name if p_name else c_name
-    st.divider()
+if p_name and c_name:
+    search_term = f'"{p_name}" "{c_name}"'
+    display_term = f"{p_name} at {c_name}"
+elif p_name:
+    search_term = f'"{p_name}"'
+    display_term = p_name
+else:
+    search_term = f'"{c_name}"'
+    display_term = c_name
 
-    # ── URL-safe versions ────────────────────────────────────────────────────
-    # q_encoded  : quoted version for embedding inside Google search query strings
-    # q_raw      : the plain search term (used in paths like dilisense)
-    q_encoded  = urllib.parse.quote(f'"{search_term}"')   # → %22search+term%22
-    q_raw      = urllib.parse.quote(search_term)           # → search+term (no quotes)
+q_encoded = urllib.parse.quote(search_term)
+q_raw = urllib.parse.quote(display_term) 
 
     # ── LinkedIn search query ────────────────────────────────────────────────
     if p_name and c_name:
