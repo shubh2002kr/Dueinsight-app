@@ -784,7 +784,10 @@ Output a structured summary of findings, case-wise details with party name, case
         <span class="qb-icon">📚</span><span class="qb-name">Indian Kanoon</span><span class="qb-arr">↗</span>
         </a>
 
-        
+        <a href="https://www.manupatrafast.com/homepopup.aspx" target="_blank" class="quick-btn" style="--qc:#1f6feb;">
+        <span class="qb-icon">📘</span><span class="qb-name">Manupatra</span><span class="qb-arr">↗</span>
+        </a>
+
         <a href="https://chatgpt.com/?q={ai_prompt_encoded}" target="_blank" class="quick-btn" style="--qc:#10a37f;">
         <span class="qb-icon">🤖</span><span class="qb-name">ChatGPT</span><span class="qb-arr">↗</span>
         </a>
