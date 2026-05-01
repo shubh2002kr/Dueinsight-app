@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 from bs4 import BeautifulSoup
 import urllib.parse
+from datetime import date
 
 # ---------------------------------------------------
 # PAGE CONFIG
@@ -488,21 +489,24 @@ litigation_results = []
 with st.spinner(f"Analysing {search_term}…"):
 
         # Google News RSS
-        try:
-            news_url  = f"https://news.google.com/rss/search?q={q_encoded}"
-            news_resp = requests.get(news_url, timeout=5)
-            news_resp.raise_for_status()
-            # Use "lxml-xml" if available, fall back to "xml"
-            try:
-                soup_news = BeautifulSoup(news_resp.content, "lxml-xml")
-            except Exception:
-                soup_news = BeautifulSoup(news_resp.content, "xml")
-            news = soup_news.find_all("item")[:15]
-        except Exception:
-            pass
+        today = date.today()
+ten_years_ago = today.replace(year=today.year - 10)
 
-        # Indian Kanoon scrape
-        try:
+news_query = f"{search_term} after:{ten_years_ago} before:{today}"
+news_url = f"https://news.google.com/rss/search?q={urllib.parse.quote(news_query)}"
+
+news_resp = requests.get(news_url, timeout=5)
+news_resp.raise_for_status()
+
+try:
+    soup_news = BeautifulSoup(news_resp.content, "lxml-xml")
+except Exception:
+    soup_news = BeautifulSoup(news_resp.content, "xml")
+
+news = soup_news.find_all("item")
+
+  # Indian Kanoon scrape
+try:
             ik_url  = f"https://indiankanoon.org/search/?formInput=%22{q_raw}%22"
             headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
             ik_resp = requests.get(ik_url, headers=headers, timeout=5)
@@ -515,7 +519,7 @@ with st.spinner(f"Analysing {search_term}…"):
                         "title": a.get_text(strip=True),
                         "link" : "https://indiankanoon.org" + a["href"]
                     })
-        except Exception:
+except Exception:
             pass
 
     # ── Layout ───────────────────────────────────────────────────────────────
@@ -1760,6 +1764,9 @@ st.markdown(f"""
     </span>
 </div>
 """, unsafe_allow_html=True)
+
+
+
 
 
 
