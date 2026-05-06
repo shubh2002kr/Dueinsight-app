@@ -752,21 +752,26 @@ with l_col:
         q_raw = urllib.parse.quote(search_term)
 
         litigation_ai_prompt = f"""
-Conduct a comprehensive legal due diligence and litigation search for the company {target_company}, including all its subsidiaries, group entities, affiliates, past entities, and associated businesses, along with its promoters, directors, key managerial personnel (KMPs), and beneficial owners.
+Conduct legal due diligence for {target_company}, including subsidiaries, affiliates, group entities, past names, promoters, directors, KMPs, beneficial owners, and associated businesses.
 
-The objective is to identify any legal risks, disputes, or red flags across District Courts, High Courts, and the Supreme Court of India.
+Search Indian District Courts, High Courts, Supreme Court, eCourts, NCLT/NCLAT, IBC records, public court orders, regulatory filings, SCC Online/Manupatra references, and public sources.
 
-Please cover pending, disposed, and stayed cases across jurisdictions, including civil disputes, criminal cases, corporate and commercial litigation, insolvency and bankruptcy proceedings, cheque bounce cases under NI Act Section 138, employment or labour disputes, and regulatory or compliance-related cases.
+Cover pending, disposed, and stayed matters including civil, criminal, commercial, corporate, insolvency, liquidation, restructuring, cheque bounce under NI Act 138, employment/labour, tax, GST, income tax, regulatory, compliance, banking recovery, arbitration, and cross-border disputes.
 
-Also check FIRs, charge sheets, police complaints, ED, CBI, Income Tax Department, and SFIO actions.
+Specifically check for fake, fraud, penalty, bribe, bribery, damages, scams, corruption, adverse findings, adverse judicial observations, money laundering, blacklisting, repeat allegations, ED, CBI, SFIO, Income Tax Department, GST authorities, SEBI, RBI, MCA, FIRs, police complaints, and charge sheets.
 
-Analyse litigation frequency and patterns, jurisdiction-wise distribution, nature and severity of disputes, repeat allegations, systemic issues, adverse judicial observations, penalties, NCLT, NCLAT, insolvency, liquidation, restructuring, recovery actions by banks or financial institutions, blacklisting, corruption, bribery, kickback allegations, cross-border litigation, and international arbitration.
+Check pending or disposed Income Tax and GST-related cases, penalties, notices, orders, prosecution, or adverse findings against the company and its directors/promoters.
 
-Use sources including eCourts India, High Court records, Supreme Court records, SCC Online, Manupatra, public court orders, and public filings.
+Also identify penalty, adverse, corruption, fraud, bribery, scam, damages, and regulatory cases involving the company or its directors.
 
-Output a structured summary of findings, case-wise details with party name, case number, court, status, brief facts, key legal risks and red flags, and an overall litigation risk rating as Low, Medium, or High.
+Output:
+1. Executive summary
+2. Case-wise details: party name, case number, court, status, date, brief facts
+3. Income Tax/GST findings
+4. Fraud/corruption/penalty red flags
+5. Pattern analysis by dispute type and jurisdiction
+6. Overall litigation risk rating: Low/Medium/High
 """
-
         ai_prompt_encoded = urllib.parse.quote(litigation_ai_prompt)
 
         quick_btns_html = f"""
@@ -797,6 +802,10 @@ Output a structured summary of findings, case-wise details with party name, case
         
         <a href="https://chatgpt.com/?q={ai_prompt_encoded}" target="_blank" class="quick-btn" style="--qc:#10a37f;">
         <span class="qb-icon">🤖</span><span class="qb-name">ChatGPT</span><span class="qb-arr">↗</span>
+        </a>
+
+        <a href="https://copilot.microsoft.com/?q={ai_prompt_encoded}" target="_blank" class="quick-btn" style="--qc:#0078d4;">
+        <span class="qb-icon">🧠</span><span class="qb-name">Copilot</span><span class="qb-arr">↗</span>
         </a>
 
         """
@@ -1764,6 +1773,8 @@ st.markdown(f"""
     </span>
 </div>
 """, unsafe_allow_html=True)
+
+
 
 
 
