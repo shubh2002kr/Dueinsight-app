@@ -1441,7 +1441,7 @@ body {{
 </body>
 </html>"""
 
-        components.html(footprint_html, height=290, scrolling=False)
+        components.html(footprint_html, height= 290, scrolling=False)
 
     # ── Compliance Section — rendered via st.components.v1.html() ─────────────
 import streamlit.components.v1 as components
@@ -1510,9 +1510,28 @@ t2 = (
                 "Reserve Bank of India — wilful defaulters list and credit information disclosures.",
                 "India · RBI", "#1e8449", "https://www.rbi.org.in/Scripts/bs_viewcontent.aspx?Id=2009") +
         db_card("📋", "rgba(20,143,119,0.3)", "NCLT Orders",
-                "National Company Law Tribunal orders on corporate disputes, mergers & winding up.",
-                "India · NCLT", "#148f77", "https://nclt.gov.in/en/content/orders")
+                "National Company Law Tribunal orders on corporate disputes, insolvency, mergers & winding up.",
+                "India · NCLT", "#148f77", "https://nclt.gov.in/en/content/orders") +
+        db_card("⚖️", "rgba(52,152,219,0.3)", "NCLAT Orders",
+                "National Company Law Appellate Tribunal judgments and orders on company law, IBC and competition appeals.",
+                "India · NCLAT", "#2e86c1", "https://nclat.nic.in/judgements") +
+        db_card("🛒", "rgba(230,126,34,0.3)", "DCDRC / Consumer",
+                "District Consumer Disputes Redressal Commission and consumer case search through e-Jagriti.",
+                "India · Consumer", "#ca6f1e", "https://e-jagriti.gov.in/") +
+        db_card("🚢", "rgba(93,109,126,0.3)", "CESTAT",
+                "Customs, Excise & Service Tax Appellate Tribunal orders on indirect tax and customs disputes.",
+                "India · CESTAT", "#566573", "https://cestat.gov.in/") +
+        db_card("💰", "rgba(22,160,133,0.3)", "ITAT",
+                "Income Tax Appellate Tribunal orders and cause lists for income tax litigation.",
+                "India · ITAT", "#138d75", "https://itat.gov.in/") +
+        db_card("🏛️", "rgba(155,89,182,0.3)", "DRT / DRAT",
+                "Debt Recovery Tribunal and Debt Recovery Appellate Tribunal matters for banking recovery disputes.",
+                "India · DRT/DRAT", "#884ea0", "https://drt.gov.in/") +
+        db_card("🌿", "rgba(39,174,96,0.3)", "NGT",
+                "National Green Tribunal cases, orders and environmental compliance disputes.",
+                "India · NGT", "#239b56", "https://greentribunal.gov.in/")
     )
+
 
 t3 = (
         db_card("💳", "rgba(44,62,80,0.3)", "CIBIL Defaulters",
@@ -1728,7 +1747,7 @@ compliance_html = f"""<!DOCTYPE html>
 </body>
 </html>"""
 
-components.html(compliance_html, height=620, scrolling=False)
+components.html(compliance_html, height=920, scrolling=False)
 
 
 # ── Footer ────────────────────────────────────────────────────────────────────
