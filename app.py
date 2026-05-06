@@ -752,25 +752,45 @@ with l_col:
         q_raw = urllib.parse.quote(search_term)
 
         litigation_ai_prompt = f"""
-Conduct legal due diligence for {target_company}, including subsidiaries, affiliates, group entities, past names, promoters, directors, KMPs, beneficial owners, and associated businesses.
+Comprehensive Legal Due Diligence & Litigation Intelligence Prompt
 
-Search Indian District Courts, High Courts, Supreme Court, eCourts, NCLT/NCLAT, IBC records, public court orders, regulatory filings, SCC Online/Manupatra references, and public sources.
+Conduct a comprehensive legal, regulatory, compliance, litigation, reputational, and forensic due diligence investigation on {target_company}, including:
 
-Cover pending, disposed, and stayed matters including civil, criminal, commercial, corporate, insolvency, liquidation, restructuring, cheque bounce under NI Act 138, employment/labour, tax, GST, income tax, regulatory, compliance, banking recovery, arbitration, and cross-border disputes.
+Parent company, subsidiaries, step-down subsidiaries, associate companies, joint ventures, affiliates, group entities, related parties, past names / former entities, merged or acquired entities, overseas entities and branches, promoters, directors current & former, KMPs, shareholders, beneficial owners, authorized signatories, senior management, associated businesses and linked entities.
 
-Specifically check for fake, fraud, penalty, bribe, bribery, damages, scams, corruption, adverse findings, adverse judicial observations, money laundering, blacklisting, repeat allegations, ED, CBI, SFIO, Income Tax Department, GST authorities, SEBI, RBI, MCA, FIRs, police complaints, and charge sheets.
+Objective:
+Identify legal risks, regulatory exposure, financial misconduct, fraud indicators, compliance failures, criminal exposure, insolvency risks, reputation concerns, adverse judicial observations, repeat litigation patterns, hidden liabilities, enforcement actions, and red flags involving promoters/directors/entities.
 
-Check pending or disposed Income Tax and GST-related cases, penalties, notices, orders, prosecution, or adverse findings against the company and its directors/promoters.
+Search Scope:
+Indian District Courts, eCourts, High Courts, Supreme Court of India, NCLT, NCLAT, DRT/DRAT, Consumer Courts, Labour Courts, Industrial Tribunals, Arbitration matters, Commercial Courts, Lok Adalats, IBBI records, IBC/CIRP/liquidation proceedings, public court orders, cause lists, FIR references, charge sheets, SCC Online references, Manupatra references, Indian Kanoon, regulatory adjudication orders.
 
-Also identify penalty, adverse, corruption, fraud, bribery, scam, damages, and regulatory cases involving the company or its directors.
+Check authorities:
+ED, CBI, SFIO, MCA, ROC, SEBI, RBI, Income Tax Department, GST Authorities, DGGI, CCI, CVC, EOW, ACB, Customs, FEMA/FDI authorities, Pollution Control Boards, Labour Departments, PF/ESIC authorities, international sanctions/watchlists if applicable.
 
-Output:
-1. Executive summary
-2. Case-wise details: party name, case number, court, status, date, brief facts
-3. Income Tax/GST findings
-4. Fraud/corruption/penalty red flags
-5. Pattern analysis by dispute type and jurisdiction
-6. Overall litigation risk rating: Low/Medium/High
+Cover:
+Corporate/commercial disputes, shareholder disputes, oppression and mismanagement, breach of contract, recovery proceedings, governance issues, director misconduct, misappropriation, insolvency, CIRP, liquidation, SARFAESI, wilful default, NPA matters, loan defaults, fraud, scams, forged documents, cheating, bribery, corruption, money laundering, shell company links, blacklisting, regulatory violations, SEBI/RBI/FEMA/Companies Act issues, tax/GST litigation, labour disputes, civil disputes, property disputes, arbitration, consumer complaints, and cross-border disputes.
+
+Specifically identify:
+Income Tax litigation, GST litigation, GST evasion allegations, tax notices, assessment orders, penalties, raids/searches, prosecution, demand notices, appellate proceedings, adverse findings, and director/promoter tax disputes.
+
+Red flags:
+Repeat litigation patterns, adverse judicial remarks, fraud/misconduct findings, corruption/bribery allegations, scam references, regulatory penalties, director disqualification, shell entity connections, suspicious transactions, NI Act Section 138 cheque bounce cases, wilful default, enforcement raids/attachments, high-value litigation, criminal investigations, undisclosed liabilities, operational disputes, adverse media, ESG/compliance concerns.
+
+Search variations:
+Full company name, abbreviated names, former names, trade names, brand names, director/promoter names, spelling variations, group company combinations, “vs” combinations, director + company combinations, entity + fraud/scam/bribery/fake, entity + ED/CBI/SFIO/SEBI/GST/Income Tax.
+
+Deliverables:
+1. Entity Overview
+2. Litigation Summary
+3. Case Details Table with case title, case number, court/forum, filing year, status, parties, dispute nature, allegations, current stage, next hearing, financial implications, source link
+4. Regulatory & Enforcement Actions
+5. Tax & GST Exposure
+6. Fraud & Reputation Review
+7. Red Flag Assessment categorized as Critical, High, Medium, Low
+8. Overall Due Diligence Conclusion with litigation exposure, compliance posture, regulatory concerns, fraud/corruption indicators, reputation risks, recommended risk rating, and key concerns for investors/lenders/partners.
+
+Important Instructions:
+Use only reliable and publicly accessible sources. Cross-verify findings where possible. Clearly distinguish allegations from proven findings. Mention unavailable or unverifiable records. Prioritize recent and ongoing matters while identifying historical patterns. Avoid duplicate case reporting. Include source URLs wherever available. Make the report suitable for investors, banks, compliance teams, forensic investigators, and corporate due diligence.
 """
         ai_prompt_encoded = urllib.parse.quote(litigation_ai_prompt)
 
@@ -1773,6 +1793,9 @@ st.markdown(f"""
     </span>
 </div>
 """, unsafe_allow_html=True)
+
+
+
 
 
 
