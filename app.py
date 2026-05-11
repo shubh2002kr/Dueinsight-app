@@ -498,11 +498,11 @@ hero_html = f"""<!DOCTYPE html>
 
   /* Title */
   .hero-title {{
-    font-size: 58px;
+    font-size: 50px;
     font-weight: 900;
     letter-spacing: -2px;
-    line-height: 1;
-    margin-bottom: 12px;
+    line-height: 1.5;
+    margin-bottom: 8px;
     background: linear-gradient(135deg, #ffffff 0%, #30b2c9 40%, #00dfd8 70%, #ffffff 100%);
     background-size: 300% 300%;
     -webkit-background-clip: text;
