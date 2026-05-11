@@ -1521,7 +1521,7 @@ body {{
 </style>
 </head>
 <body>
-    <div class="sec-title">⚖️ Litigation &amp; Court Records</div>
+    <div class="sec-title"> Litigation &amp; Court Records</div>
     <div class="quick-row">{quick_btns_html}</div>
     <div class="divider"></div>
     <div class="news-feed">{lit_cards_html if lit_cards_html else lt_empty}</div>
