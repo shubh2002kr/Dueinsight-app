@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 import urllib.parse
 from datetime import date
 
+
+
 # ---------------------------------------------------
 # PAGE CONFIG
 # ---------------------------------------------------
@@ -223,6 +225,176 @@ with top_col1:
       </div>
     </div>
     """, height=56, scrolling=False)
+
+with top_col2:
+    st.markdown("""
+    <style>
+      .about-wrap {
+        position: relative;
+        display: inline-flex;
+        width: fit-content;
+      }
+
+      .about-check {
+        display: none;
+      }
+
+      .about-outer {
+        position: relative;
+        display: inline-flex;
+        width: fit-content;
+        animation: aboutPop 0.7s cubic-bezier(.34,1.4,.64,1) both;
+        cursor: pointer;
+      }
+
+      .about-outer::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border-radius: 14px;
+        background: linear-gradient(90deg,
+          rgba(0,223,216,0) 0%,
+          rgba(0,223,216,0.8) 25%,
+          rgba(48,178,201,0.9) 50%,
+          rgba(0,223,216,0.8) 75%,
+          rgba(0,223,216,0) 100%
+        );
+        background-size: 300% 100%;
+        animation: aboutBorderSweep 3s linear infinite;
+        z-index: 0;
+        opacity: 0.6;
+      }
+
+      .about-outer::after {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: 16px;
+        background: transparent;
+        box-shadow: 0 0 0 1px rgba(0,223,216,0.15);
+        animation: aboutOuterPulse 2.5s ease-in-out infinite;
+        z-index: 0;
+      }
+
+      .about-btn {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 8px 15px;
+        border-radius: 12px;
+        background: rgba(18,22,32,0.92);
+        border: 1px solid rgba(255,255,255,0.08);
+        color: #00dfd8 !important;
+        font-size: 13px;
+        font-weight: 800;
+        text-decoration: none !important;
+        white-space: nowrap;
+        transition: box-shadow 0.3s, transform 0.3s;
+      }
+
+      .about-outer:hover .about-btn {
+        transform: scale(1.05) translateY(-1px);
+        box-shadow: 0 6px 28px rgba(0,223,216,0.25);
+      }
+
+      .about-spark {
+        color: #30b2c9;
+        animation: aboutSpark 2.2s ease-in-out infinite;
+      }
+
+      .about-panel {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 320px;
+        padding: 18px;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 1px solid rgba(0,223,216,0.35);
+        box-shadow: 0 18px 45px rgba(0,0,0,0.25), 0 0 26px rgba(0,223,216,0.16);
+        color: #111111;
+        z-index: 9999;
+        animation: aboutPanelIn 0.25s ease both;
+      }
+
+      .about-check:checked ~ .about-panel {
+        display: block;
+      }
+
+      .about-panel-title {
+        font-size: 15px;
+        font-weight: 800;
+        color: #30b2c9;
+        margin-bottom: 8px;
+      }
+
+      .about-panel-text {
+        font-size: 12px;
+        line-height: 1.55;
+        color: #111111;
+      }
+
+      .about-panel-name {
+        margin-top: 12px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #00a6a6;
+        letter-spacing: 0.04em;
+      }
+
+      @keyframes aboutBorderSweep {
+        0%   { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+
+      @keyframes aboutOuterPulse {
+        0%,100% { box-shadow: 0 0 0 1px rgba(0,223,216,0.10), 0 0 10px rgba(0,223,216,0.05); }
+        50%      { box-shadow: 0 0 0 2px rgba(0,223,216,0.35), 0 0 22px rgba(0,223,216,0.18); }
+      }
+
+      @keyframes aboutPop {
+        from { opacity:0; transform:translateX(20px) scale(0.85); }
+        to   { opacity:1; transform:translateX(0) scale(1); }
+      }
+
+      @keyframes aboutSpark {
+        0%,100% { opacity: 0.65; transform: scale(1) rotate(0deg); }
+        50% { opacity: 1; transform: scale(1.18) rotate(12deg); }
+      }
+
+      @keyframes aboutPanelIn {
+        from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+      }
+    </style>
+
+    <div class="about-wrap">
+      <input type="checkbox" id="about-toggle" class="about-check">
+      <label for="about-toggle" class="about-outer">
+        <span class="about-btn">
+          <span>About</span>
+        </span>
+      </label>
+
+      <div class="about-panel">
+        <div class="about-panel-title">DueInsight — DD Workstation</div>
+        <div class="about-panel-text">
+          A due diligence workstation for profile research, litigation checks,
+          media coverage, regulatory databases, compliance screening, and
+          keyword intelligence searches.
+        </div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+
+
+
 
 apply_custom_style(dark_mode)
 
@@ -549,10 +721,14 @@ with l_col:
              f"https://www.google.com/search?q=site:magicpin.in+{q_encoded}"),
             ("🍽️", "EazyDiner",        "#D32F2F", "rgba(211,47,47,0.35)",
              f"https://www.google.com/search?q=site:eazydiner.com+{q_encoded}"),
-            ("🏢", "Zauba",            "#6f42c1", "rgba(111,66,193,0.35)",
-             f"https://www.google.com/search?q=site:zaubacorp.com+{q_encoded}"),
             ("🤖", "ChatGPT",          "#10a37f", "rgba(16,163,127,0.35)",
              f"https://chatgpt.com/?q={q_raw}"),
+            ("🏛️", "MyNeta", "#AA2F0A", "rgba(142,68,173,0.35)",
+             f"https://www.google.com/search?q=site:myneta.info+{q_encoded}"),
+            ("🌐", "WHOIS Lookup", "#2874a6", "rgba(40,116,166,0.35)",
+             f"https://www.google.com/search?q=site:whois.com/whois+{q_encoded}"),
+            
+
         ]
 
         profile_cards_html = ""
@@ -724,7 +900,7 @@ with l_col:
 </style>
 </head>
 <body>
-  <div class="sec-title">🧑‍💼 Profile Research</div>
+  <div class="sec-title">Profile Research</div>
   <div class="pr-grid">
     {profile_cards_html}
   </div>
@@ -732,472 +908,7 @@ with l_col:
 </html>"""
 
         components_profile.html(profile_html, height=520, scrolling=False)
-
-        # ── Litigation Records — Premium Animated iframe ─────────────────────
-        # ── Litigation Records — Premium Animated iframe ─────────────────────
-        import streamlit.components.v1 as components_lit
-
-        lt_bg_card  = "rgba(255,255,255,0.05)" if dark_mode else "rgba(255,255,255,0.88)"
-        lt_card_bdr = "rgba(255,255,255,0.10)" if dark_mode else "rgba(0,0,0,0.10)"
-        lt_entry_bg = "rgba(255,255,255,0.04)" if dark_mode else "#ffffff"
-        lt_entry_bdr = "rgba(255,255,255,0.08)" if dark_mode else "rgba(0,0,0,0.08)"
-        lt_title_c = "#f0f0f0" if dark_mode else "#111111"
-        lt_meta_c = "#6b7a8d" if dark_mode else "#888888"
-        lt_hover_bg = "rgba(255,255,255,0.07)" if dark_mode else "rgba(0,0,0,0.03)"
-
-        # Quick-access button cards
-        target_company = c_name.strip() if c_name.strip() else p_name.strip()
-        search_term = p_name if p_name else c_name
-        q_encoded = urllib.parse.quote(f'"{search_term}"')
-        q_raw = urllib.parse.quote(search_term)
-
-        litigation_ai_prompt = f"""
-Comprehensive Legal Due Diligence & Litigation Intelligence Prompt
-
-Conduct a comprehensive legal, regulatory, compliance, litigation, reputational, and forensic due diligence investigation on {target_company}, including:
-
-Parent company, subsidiaries, step-down subsidiaries, associate companies, joint ventures, affiliates, group entities, related parties, past names / former entities, merged or acquired entities, overseas entities and branches, promoters, directors current & former, KMPs, shareholders, beneficial owners, authorized signatories, senior management, associated businesses and linked entities.
-
-Objective:
-Identify legal risks, regulatory exposure, financial misconduct, fraud indicators, compliance failures, criminal exposure, insolvency risks, reputation concerns, adverse judicial observations, repeat litigation patterns, hidden liabilities, enforcement actions, and red flags involving promoters/directors/entities.
-
-Search Scope:
-Indian District Courts, eCourts, High Courts, Supreme Court of India, NCLT, NCLAT, DRT/DRAT, Consumer Courts, Labour Courts, Industrial Tribunals, Arbitration matters, Commercial Courts, Lok Adalats, IBBI records, IBC/CIRP/liquidation proceedings, public court orders, cause lists, FIR references, charge sheets, SCC Online references, Manupatra references, Indian Kanoon, regulatory adjudication orders.
-
-Check authorities:
-ED, CBI, SFIO, MCA, ROC, SEBI, RBI, Income Tax Department, GST Authorities, DGGI, CCI, CVC, EOW, ACB, Customs, FEMA/FDI authorities, Pollution Control Boards, Labour Departments, PF/ESIC authorities, international sanctions/watchlists if applicable.
-
-Cover:
-Corporate/commercial disputes, shareholder disputes, oppression and mismanagement, breach of contract, recovery proceedings, governance issues, director misconduct, misappropriation, insolvency, CIRP, liquidation, SARFAESI, wilful default, NPA matters, loan defaults, fraud, scams, forged documents, cheating, bribery, corruption, money laundering, shell company links, blacklisting, regulatory violations, SEBI/RBI/FEMA/Companies Act issues, tax/GST litigation, labour disputes, civil disputes, property disputes, arbitration, consumer complaints, and cross-border disputes.
-
-Specifically identify:
-Income Tax litigation, GST litigation, GST evasion allegations, tax notices, assessment orders, penalties, raids/searches, prosecution, demand notices, appellate proceedings, adverse findings, and director/promoter tax disputes.
-
-Red flags:
-Repeat litigation patterns, adverse judicial remarks, fraud/misconduct findings, corruption/bribery allegations, scam references, regulatory penalties, director disqualification, shell entity connections, suspicious transactions, NI Act Section 138 cheque bounce cases, wilful default, enforcement raids/attachments, high-value litigation, criminal investigations, undisclosed liabilities, operational disputes, adverse media, ESG/compliance concerns.
-
-Search variations:
-Full company name, abbreviated names, former names, trade names, brand names, director/promoter names, spelling variations, group company combinations, “vs” combinations, director + company combinations, entity + fraud/scam/bribery/fake, entity + ED/CBI/SFIO/SEBI/GST/Income Tax.
-
-Deliverables:
-1. Entity Overview
-2. Litigation Summary
-3. Case Details Table with case title, case number, court/forum, filing year, status, parties, dispute nature, allegations, current stage, next hearing, financial implications, source link
-4. Regulatory & Enforcement Actions
-5. Tax & GST Exposure
-6. Fraud & Reputation Review
-7. Red Flag Assessment categorized as Critical, High, Medium, Low
-8. Overall Due Diligence Conclusion with litigation exposure, compliance posture, regulatory concerns, fraud/corruption indicators, reputation risks, recommended risk rating, and key concerns for investors/lenders/partners.
-
-Important Instructions:
-Use only reliable and publicly accessible sources. Cross-verify findings where possible. Clearly distinguish allegations from proven findings. Mention unavailable or unverifiable records. Prioritize recent and ongoing matters while identifying historical patterns. Avoid duplicate case reporting. Include source URLs wherever available. Make the report suitable for investors, banks, compliance teams, forensic investigators, and corporate due diligence.
-"""
-        ai_prompt_encoded = urllib.parse.quote(litigation_ai_prompt)
-
-        quick_btns_html = f"""
-        <a href="https://ecourts.gov.in/ecourts_home/" target="_blank" class="quick-btn" style="--qc:#e67e22;">
-        <span class="qb-icon">🏛️</span><span class="qb-name">eCourts India</span><span class="qb-arr">↗</span>
-        </a>
-
-        <a href="https://www.sci.gov.in/case-status-case-no/" target="_blank" class="quick-btn" style="--qc:#c0392b;">
-        <span class="qb-icon">🔱</span><span class="qb-name">Supreme Court</span><span class="qb-arr">↗</span>
-        </a>
-
-        <a href="https://services.ecourts.gov.in/ecourtindia_v6/?p=high_court/index&app_token=" target="_blank" class="quick-btn" style="--qc:#8e44ad;">
-        <span class="qb-icon">⚖️</span><span class="qb-name">High Court</span><span class="qb-arr">↗</span>
-        </a>
-
-        <a href="https://ecourts.gov.in/ecourts2.0//?p=dist_court&app_token=" target="_blank" class="quick-btn" style="--qc:#27ae60;">
-        <span class="qb-icon">🏢</span><span class="qb-name">District Court</span><span class="qb-arr">↗</span>
-        </a>
-
-        <a href="https://indiankanoon.org/search/?formInput=%22{q_raw}%22" target="_blank" class="quick-btn" style="--qc:#30b2c9;">
-        <span class="qb-icon">📚</span><span class="qb-name">Indian Kanoon</span><span class="qb-arr">↗</span>
-        </a>
-
-        <a href="https://www.manupatrafast.com/homepopup.aspx" target="_blank" class="quick-btn" style="--qc:#1f6feb;">
-        <span class="qb-icon">📘</span><span class="qb-name">Manupatra</span><span class="qb-arr">↗</span>
-        </a>
-
-        
-        <a href="https://chatgpt.com/?q={ai_prompt_encoded}" target="_blank" class="quick-btn" style="--qc:#10a37f;">
-        <span class="qb-icon">🤖</span><span class="qb-name">ChatGPT</span><span class="qb-arr">↗</span>
-        </a>
-
-        <a href="https://copilot.microsoft.com/?q={ai_prompt_encoded}" target="_blank" class="quick-btn" style="--qc:#0078d4;">
-        <span class="qb-icon">🧠</span><span class="qb-name">Copilot</span><span class="qb-arr">↗</span>
-        </a>
-
-        """
-
-        # Litigation result cards
-        if "litigation_results" not in locals():
-            litigation_results = []
-
-        lit_cards_html = ""
-        for i, res in enumerate(litigation_results):
-            delay = i * 0.07
-            lit_cards_html += f"""
-            <a href="{res['link']}" target="_blank" class="news-card" style="animation-delay:{delay}s">
-              <div class="news-card-inner">
-                <div class="news-bar"></div>
-                <div class="news-body">
-                  <div class="news-meta">
-                    <span class="news-source">Indian Kanoon</span>
-                    <span class="news-dot">·</span>
-                    <span class="news-date">Court Record</span>
-                  </div>
-                  <div class="news-title">{res['title']}</div>
-                  <div class="news-cta">View judgment <span class="news-arrow">→</span></div>
-                </div>
-                <div class="news-badge">⚖️</div>
-              </div>
-            </a>
-            """
-
-        lt_empty = "<div class='no-news'>No instant records found. Use the databases above.</div>" if not lit_cards_html else ""
-        lt_num = max(len(litigation_results), 1)
-        lt_h = min(180 + lt_num * 100, 680)
-
-        if not litigation_results:
-            lt_h = 220
-
-        import streamlit.components.v1 as components_lit
-
-        lt_bg_card = "rgba(255,255,255,0.05)" if dark_mode else "rgba(255,255,255,0.88)"
-        lt_card_bdr = "rgba(255,255,255,0.10)" if dark_mode else "rgba(0,0,0,0.10)"
-        lt_entry_bg = "rgba(255,255,255,0.04)" if dark_mode else "#ffffff"
-        lt_entry_bdr = "rgba(255,255,255,0.08)" if dark_mode else "rgba(0,0,0,0.08)"
-        lt_title_c = "#f0f0f0" if dark_mode else "#111111"
-        lt_meta_c = "#6b7a8d" if dark_mode else "#888888"
-        lt_hover_bg = "rgba(255,255,255,0.07)" if dark_mode else "rgba(0,0,0,0.03)"
-
-        lt_empty = "<div class='no-news'>No instant records found. Use the databases above.</div>" if not lit_cards_html else ""
-        lt_num = max(len(litigation_results), 1)
-        lt_h = 220 if not litigation_results else min(180 + lt_num * 100, 680)
-
-        lit_html = f"""<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<style>
-* {{ box-sizing: border-box; margin: 0; padding: 0; }}
-body {{
-    font-family: Inter, sans-serif;
-    background: {lt_bg_card};
-    border: 1px solid {lt_card_bdr};
-    border-radius: 20px;
-    padding: 22px;
-    overflow: visible;
-}}
-.sec-title {{
-    font-size: 18px;
-    font-weight: 800;
-    color: #30b2c9;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}}
-.sec-title::after {{
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, rgba(0,223,216,0.35), transparent);
-}}
-.quick-row {{
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-}}
-.quick-btn {{
-    flex: 1;
-    min-width: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 9px 12px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: color-mix(in srgb, var(--qc) 18%, transparent);
-    text-decoration: none;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
-}}
-.quick-btn:hover {{
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 8px 22px rgba(0,0,0,0.28), 0 0 0 1px var(--qc);
-}}
-.qb-icon {{ font-size: 15px; }}
-.qb-name {{
-    font-size: 12px;
-    font-weight: 700;
-    color: rgba(255,255,255,0.9);
-    white-space: nowrap;
-}}
-.qb-arr {{
-    font-size: 10px;
-    color: rgba(255,255,255,0.4);
-    margin-left: auto;
-}}
-.divider {{
-    height: 1px;
-    background: linear-gradient(to right, rgba(0,223,216,0.2), transparent);
-    margin-bottom: 14px;
-}}
-.news-feed {{
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-}}
-.news-card {{
-    border-radius: 12px;
-    background: {lt_entry_bg};
-    border: 1px solid {lt_entry_bdr};
-    text-decoration: none;
-    overflow: hidden;
-    display: block;
-    opacity: 0;
-    transform: translateX(-16px);
-    animation: slideIn 0.45s ease forwards;
-    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}}
-.news-card:hover {{
-    background: {lt_hover_bg};
-    transform: translateX(4px);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.22), -3px 0 0 #e74c1e;
-}}
-@keyframes slideIn {{
-    to {{ opacity: 1; transform: translateX(0); }}
-}}
-.news-card-inner {{
-    display: flex;
-    align-items: stretch;
-}}
-.news-bar {{
-    width: 3px;
-    background: linear-gradient(180deg, #e74c1e, #d35400);
-}}
-.news-body {{
-    flex: 1;
-    padding: 11px 10px 11px 13px;
-}}
-.news-meta {{
-    display: flex;
-    gap: 5px;
-    margin-bottom: 5px;
-}}
-.news-source {{
-    font-size: 10px;
-    font-weight: 700;
-    color: #e67e22;
-    text-transform: uppercase;
-}}
-.news-dot,
-.news-date {{
-    font-size: 10px;
-    color: {lt_meta_c};
-}}
-.news-title {{
-    font-size: 12.5px;
-    font-weight: 600;
-    color: {lt_title_c};
-    line-height: 1.45;
-}}
-.news-cta {{
-    font-size: 10.5px;
-    font-weight: 600;
-    color: rgba(230,126,34,0.7);
-    margin-top: 5px;
-}}
-.news-badge {{
-    font-size: 18px;
-    padding: 10px 12px 10px 0;
-    display: flex;
-    align-items: center;
-    opacity: 0.45;
-}}
-.no-news {{
-    text-align: center;
-    padding: 20px;
-    font-size: 12.5px;
-    color: {lt_meta_c};
-}}
-</style>
-</head>
-<body>
-    <div class="sec-title">⚖️ Litigation &amp; Court Records</div>
-    <div class="quick-row">{quick_btns_html}</div>
-    <div class="divider"></div>
-    <div class="news-feed">{lit_cards_html if lit_cards_html else lt_empty}</div>
-</body>
-</html>"""
-
-        components_lit.html(lit_html, height=lt_h, scrolling=True)
-
-with r_col:
-        import streamlit.components.v1 as components_news
-
-        news_items = []
-        for n in news:
-            link_tag = n.find("link")
-            title_tag = n.find("title")
-            source_tag = n.find("source")
-            pub_tag = n.find("pubDate")
-
-            if link_tag and title_tag:
-                news_items.append({
-                    "href": link_tag.get_text(strip=True),
-                    "title": title_tag.get_text(strip=True).replace('"', "&quot;"),
-                    "source": source_tag.get_text(strip=True) if source_tag else "News",
-                    "date": pub_tag.get_text(strip=True)[:16] if pub_tag else ""
-                })
-
-        news_cards_html = ""
-        for i, item in enumerate(news_items):
-            news_cards_html += f"""
-            <a href="{item['href']}" target="_blank" class="news-card" style="animation-delay:{i * 0.07}s">
-                <div class="news-card-inner">
-                    <div class="news-bar"></div>
-                    <div class="news-body">
-                        <div class="news-meta">
-                            <span class="news-source">{item['source']}</span>
-                            <span class="news-dot">·</span>
-                            <span class="news-date">{item['date']}</span>
-                        </div>
-                        <div class="news-title">{item['title']}</div>
-                        <div class="news-cta">Read article →</div>
-                    </div>
-                    <div class="news-badge">📰</div>
-                </div>
-            </a>"""
-
-        empty_html = "<div class='no-news'>No recent news found for this search.</div>" if not news_cards_html else ""
-
-        nw_bg_card = "rgba(255,255,255,0.05)" if dark_mode else "rgba(255,255,255,0.88)"
-        nw_card_bdr = "rgba(255,255,255,0.10)" if dark_mode else "rgba(0,0,0,0.10)"
-        nw_entry_bg = "rgba(255,255,255,0.04)" if dark_mode else "#ffffff"
-        nw_entry_bdr = "rgba(255,255,255,0.08)" if dark_mode else "rgba(0,0,0,0.08)"
-        nw_title_c = "#f0f0f0" if dark_mode else "#111111"
-        nw_meta_c = "#6b7a8d" if dark_mode else "#888888"
-        iframe_h = min(80 + max(len(news_items), 1) * 105, 700)
-
-        news_html = f"""<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<style>
-* {{ box-sizing: border-box; margin: 0; padding: 0; }}
-body {{
-    font-family: Inter, sans-serif;
-    background: {nw_bg_card};
-    border: 1px solid {nw_card_bdr};
-    border-radius: 20px;
-    padding: 22px;
-}}
-.sec-title {{
-    font-size: 18px;
-    font-weight: 800;
-    color: #30b2c9;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}}
-.live-dot {{
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #00dfd8;
-    animation: blink 1.4s ease-in-out infinite;
-}}
-@keyframes blink {{
-    50% {{ opacity: 0.3; transform: scale(0.7); }}
-}}
-.news-feed {{
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-}}
-.news-card {{
-    border-radius: 12px;
-    background: {nw_entry_bg};
-    border: 1px solid {nw_entry_bdr};
-    text-decoration: none;
-    overflow: hidden;
-    display: block;
-    opacity: 0;
-    transform: translateX(-16px);
-    animation: slideIn 0.45s ease forwards;
-}}
-@keyframes slideIn {{
-    to {{ opacity: 1; transform: translateX(0); }}
-}}
-.news-card-inner {{
-    display: flex;
-    align-items: stretch;
-}}
-.news-bar {{
-    width: 3px;
-    background: linear-gradient(180deg, #00dfd8, #30b2c9);
-}}
-.news-body {{
-    flex: 1;
-    padding: 11px 10px 11px 13px;
-}}
-.news-meta {{
-    display: flex;
-    gap: 5px;
-    margin-bottom: 5px;
-}}
-.news-source {{
-    font-size: 10px;
-    font-weight: 700;
-    color: #00dfd8;
-    text-transform: uppercase;
-}}
-.news-dot,
-.news-date {{
-    font-size: 10px;
-    color: {nw_meta_c};
-}}
-.news-title {{
-    font-size: 12.5px;
-    font-weight: 600;
-    color: {nw_title_c};
-    line-height: 1.45;
-}}
-.news-cta {{
-    font-size: 10.5px;
-    font-weight: 600;
-    color: rgba(0,223,216,0.7);
-    margin-top: 5px;
-}}
-.news-badge {{
-    font-size: 18px;
-    padding: 10px 12px 10px 0;
-    display: flex;
-    align-items: center;
-    opacity: 0.45;
-}}
-.no-news {{
-    text-align: center;
-    padding: 30px;
-    font-size: 13px;
-    color: {nw_meta_c};
-}}
-</style>
-</head>
-<body>
-    <div class="sec-title"><span class="live-dot"></span>Media Coverage</div>
-    <div class="news-feed">{news_cards_html if news_cards_html else empty_html}</div>
-</body>
-</html>"""
-
-        components_news.html(news_html, height=iframe_h, scrolling=True)
-
-        # ── Digital Footprint — Premium Animated iframe ───────────────────────
+ # ── Digital Footprint — Premium Animated iframe ───────────────────────
         import streamlit.components.v1 as components
 
         df_bg_card = "rgba(255,255,255,0.05)" if dark_mode else "rgba(255,255,255,0.88)"
@@ -1381,7 +1092,7 @@ body {{
 </style>
 </head>
 <body>
-  <div class="sec-title">🌐 Digital Footprint</div>
+  <div class="sec-title">Digital Footprint</div>
 
   <div class="fp-grid">
     <a href="{ln_search_url}" target="_blank" class="fp-card fp-linkedin">
@@ -1441,9 +1152,546 @@ body {{
 </body>
 </html>"""
 
-        components.html(footprint_html, height= 290, scrolling=False)
+        components.html(footprint_html, height= 290, scrolling=False)        
 
-    # ── Compliance Section — rendered via st.components.v1.html() ─────────────
+       
+        # ── Litigation Records — Premium Animated iframe ─────────────────────
+        import streamlit.components.v1 as components_lit
+
+        lt_bg_card  = "rgba(255,255,255,0.05)" if dark_mode else "rgba(255,255,255,0.88)"
+        lt_card_bdr = "rgba(255,255,255,0.10)" if dark_mode else "rgba(0,0,0,0.10)"
+        lt_entry_bg = "rgba(255,255,255,0.04)" if dark_mode else "#ffffff"
+        lt_entry_bdr = "rgba(255,255,255,0.08)" if dark_mode else "rgba(0,0,0,0.08)"
+        lt_title_c = "#f0f0f0" if dark_mode else "#111111"
+        lt_meta_c = "#6b7a8d" if dark_mode else "#888888"
+        lt_hover_bg = "rgba(255,255,255,0.07)" if dark_mode else "rgba(0,0,0,0.03)"
+
+        # Quick-access button cards
+        target_company = c_name.strip() if c_name.strip() else p_name.strip()
+        search_term = p_name if p_name else c_name
+        q_encoded = urllib.parse.quote(f'"{search_term}"')
+        q_raw = urllib.parse.quote(search_term)
+        q_raw = urllib.parse.quote(display_term)
+
+subject_name = display_term
+subject_pan = "Subject PAN Number"
+mobile_no = "Mobile No"
+din = "DIN"
+cin = "CIN"
+
+keyword_searches = [
+    f'"{subject_name}" "Google reviews"',
+    f'"{subject_name}" "Magicbricks"',
+    f'"{subject_name}" "99acres"',
+    f'"{subject_name}" "Housing.com"',
+    f'"{subject_name}" "Facebook"',
+    f'"{subject_name}" "Twitter"',
+    f'"{subject_name}" "Instagram"',
+    f'"{subject_name}" "mobile number"',
+    f'"{subject_name}" "PAN number"',
+    f'"{subject_name}" "DIN"',
+    f'"{subject_name}"  "BJP"',
+    f'"{subject_name}"  "Congress"',
+    f'"{subject_name}"  "Myneta"',
+    f'"{subject_name}"  "Donation"',
+    f'"{subject_name}"  "US Securities and Exchange Commission"',
+    f'"{subject_name}" "Politic"',
+    f'"{subject_name}" "reviews"',
+    f'"{subject_name}" "news"',
+    f'"{subject_name}" "Twitter"  ("BAD" OR "Corrupt" OR "Fake" OR "useless")',
+    f'"{subject_name}"  "Facebook" AND ("BAD" OR "Corrupt" OR "Fake" OR "useless")',
+    f'"{subject_name}"  "Instagram" AND ("BAD" OR "Corrupt" OR "Fake" OR "useless")',
+    f'"{subject_name}"  "Myneta"',
+    f'"{subject_name}"  "Glassdoor" AND ("BAD" OR "Corrupt" OR "Fake" OR "useless")',
+    f'"{subject_name}"  "Indeed"',
+    f'"{subject_name}"  "LinkedIn"  "product"  "reviews"',
+    f'"{subject_name}" "LinkedIn"  ("BAD" OR "Corrupt" OR "Fake" OR "useless")',
+    f'"{subject_name} Private Limited" ("cash accrual" OR "cash flow" OR "adjustments")',
+    f'"{subject_name}"  "complaints"',
+    f'"{subject_name}"cin" OR "pan"',
+    f'"{subject_name}"  ("fake" OR "Fraud" OR "Penalty" OR "Bribe")',
+    f'"{subject_name}" ("fake" OR "useless" OR "bad")',
+    f'"{subject_name}"  ("Corrupt" OR "Default" OR "Insolvency")',
+    f'"{subject_name}"  "Instagram" ("fake" OR "useless" OR "bad")',
+    f'"{subject_name}" ("money laundering" OR "crime" OR "adverse")',
+    f'"{subject_name}"  ("EOW" OR "Economic Offences Wing")',
+    f'"{subject_name}"  ("ED" OR "Enforcement Directorate")',
+    f'"{subject_name}"  ("GST" OR "Goods and Services Tax")',
+    f'"{subject_name}"  "news"',
+    f'"{subject_name}"  ("CLB" OR "Company Law Board")',
+    f'"{subject_name}"  ("IBBI" OR "Insolvency and Bankruptcy")',
+    f'"{subject_name}"  ("FIR" OR "suspect" OR "Police" OR "imprisonment")',
+    f'"{subject_name}"  ("Concern" OR "Compliance" OR "damage" OR "Labour law")',
+    f'"{subject_name}"  ("Layoff" OR "Strike" OR "issue" OR "illegal")',
+    f'"{subject_name}"  ("vigilance" OR "scandal" OR "kickback" OR "imprisonment")',
+    f'"{subject_name}"  ("accuse" OR "debt" OR "dishonor" OR "Billing")',
+    f'"{subject_name}" ("Scam" OR "Fraud" OR "Fake" OR "Poor quality")',
+    f'"{subject_name}"  "Instagram"  ("Scam" OR "Fraud" OR "Fake" OR "Poor quality")',
+    f'"{subject_name}"  ("financials" OR "business activity" OR "cash accrual")',
+    f'"{subject_name}" ("business activity" OR "cash flow")',
+    f'"{subject_name}"  ("news" OR "fraud" OR "suspect" OR "concern")',
+    f'"{subject_name}"  ("fake" OR "case" OR "bribery")',
+    f'"{subject_name}"  ("Penalty" OR "adverse" OR "corruption")',
+    f'"{subject_name}"  "Business Transfer Agreement"',
+]
+
+
+
+litigation_ai_prompt = f"""
+Comprehensive Legal Due Diligence & Litigation Intelligence Prompt
+
+Conduct a comprehensive legal, regulatory, compliance, litigation, reputational, and forensic due diligence investigation on {target_company}, including:
+
+Parent company, subsidiaries, step-down subsidiaries, associate companies, joint ventures, affiliates, group entities, related parties, past names / former entities, merged or acquired entities, overseas entities and branches, promoters, directors current & former, KMPs, shareholders, beneficial owners, authorized signatories, senior management, associated businesses and linked entities.
+
+Objective:
+Identify legal risks, regulatory exposure, financial misconduct, fraud indicators, compliance failures, criminal exposure, insolvency risks, reputation concerns, adverse judicial observations, repeat litigation patterns, hidden liabilities, enforcement actions, and red flags involving promoters/directors/entities.
+
+Search Scope:
+Indian District Courts, eCourts, High Courts, Supreme Court of India, NCLT, NCLAT, DRT/DRAT, Consumer Courts, Labour Courts, Industrial Tribunals, Arbitration matters, Commercial Courts, Lok Adalats, IBBI records, IBC/CIRP/liquidation proceedings, public court orders, cause lists, FIR references, charge sheets, SCC Online references, Manupatra references, Indian Kanoon, regulatory adjudication orders.
+
+Check authorities:
+ED, CBI, SFIO, MCA, ROC, SEBI, RBI, Income Tax Department, GST Authorities, DGGI, CCI, CVC, EOW, ACB, Customs, FEMA/FDI authorities, Pollution Control Boards, Labour Departments, PF/ESIC authorities, international sanctions/watchlists if applicable.
+
+Cover:
+Corporate/commercial disputes, shareholder disputes, oppression and mismanagement, breach of contract, recovery proceedings, governance issues, director misconduct, misappropriation, insolvency, CIRP, liquidation, SARFAESI, wilful default, NPA matters, loan defaults, fraud, scams, forged documents, cheating, bribery, corruption, money laundering, shell company links, blacklisting, regulatory violations, SEBI/RBI/FEMA/Companies Act issues, tax/GST litigation, labour disputes, civil disputes, property disputes, arbitration, consumer complaints, and cross-border disputes.
+
+Specifically identify:
+Income Tax litigation, GST litigation, GST evasion allegations, tax notices, assessment orders, penalties, raids/searches, prosecution, demand notices, appellate proceedings, adverse findings, and director/promoter tax disputes.
+
+Red flags:
+Repeat litigation patterns, adverse judicial remarks, fraud/misconduct findings, corruption/bribery allegations, scam references, regulatory penalties, director disqualification, shell entity connections, suspicious transactions, NI Act Section 138 cheque bounce cases, wilful default, enforcement raids/attachments, high-value litigation, criminal investigations, undisclosed liabilities, operational disputes, adverse media, ESG/compliance concerns.
+
+Search variations:
+Full company name, abbreviated names, former names, trade names, brand names, director/promoter names, spelling variations, group company combinations, “vs” combinations, director + company combinations, entity + fraud/scam/bribery/fake, entity + ED/CBI/SFIO/SEBI/GST/Income Tax.
+
+Deliverables:
+1. Entity Overview
+2. Litigation Summary
+3. Case Details Table with case title, case number, court/forum, filing year, status, parties, dispute nature, allegations, current stage, next hearing, financial implications, source link
+4. Regulatory & Enforcement Actions
+5. Tax & GST Exposure
+6. Fraud & Reputation Review
+7. Red Flag Assessment categorized as Critical, High, Medium, Low
+8. Overall Due Diligence Conclusion with litigation exposure, compliance posture, regulatory concerns, fraud/corruption indicators, reputation risks, recommended risk rating, and key concerns for investors/lenders/partners.
+
+Important Instructions:
+Use only reliable and publicly accessible sources. Cross-verify findings where possible. Clearly distinguish allegations from proven findings. Mention unavailable or unverifiable records. Prioritize recent and ongoing matters while identifying historical patterns. Avoid duplicate case reporting. Include source URLs wherever available. Make the report suitable for investors, banks, compliance teams, forensic investigators, and corporate due diligence.
+"""
+ai_prompt_encoded = urllib.parse.quote(litigation_ai_prompt)
+copilot_prompt_encoded = urllib.parse.quote(litigation_ai_prompt)
+gemini_prompt_encoded = urllib.parse.quote(litigation_ai_prompt)
+
+        
+quick_btns_html = f"""
+        <a href="https://ecourts.gov.in/ecourts_home/" target="_blank" class="quick-btn" style="--qc:#e67e22;">
+        <span class="qb-icon">🏛️</span><span class="qb-name">eCourts India</span><span class="qb-arr">↗</span>
+        </a>
+
+        <a href="https://www.sci.gov.in/case-status-case-no/" target="_blank" class="quick-btn" style="--qc:#c0392b;">
+        <span class="qb-icon">🔱</span><span class="qb-name">Supreme Court</span><span class="qb-arr">↗</span>
+        </a>
+
+        <a href="https://services.ecourts.gov.in/ecourtindia_v6/?p=high_court/index&app_token=" target="_blank" class="quick-btn" style="--qc:#8e44ad;">
+        <span class="qb-icon">⚖️</span><span class="qb-name">High Court</span><span class="qb-arr">↗</span>
+        </a>
+
+        <a href="https://ecourts.gov.in/ecourts2.0//?p=dist_court&app_token=" target="_blank" class="quick-btn" style="--qc:#27ae60;">
+        <span class="qb-icon">🏢</span><span class="qb-name">District Court</span><span class="qb-arr">↗</span>
+        </a>
+
+        <a href="https://indiankanoon.org/search/?formInput=%22{q_raw}%22" target="_blank" class="quick-btn" style="--qc:#30b2c9;">
+        <span class="qb-icon">📚</span><span class="qb-name">Indian Kanoon</span><span class="qb-arr">↗</span>
+        </a>
+
+        <a href="https://www.manupatrafast.com/homepopup.aspx" target="_blank" class="quick-btn" style="--qc:#1f6feb;">
+        <span class="qb-icon">📘</span><span class="qb-name">Manupatra</span><span class="qb-arr">↗</span>
+        </a>
+
+        
+        <a href="https://chatgpt.com/?q={ai_prompt_encoded}" target="_blank" class="quick-btn" style="--qc:#10a37f;">
+        <span class="qb-icon">🤖</span><span class="qb-name">ChatGPT</span><span class="qb-arr">↗</span>
+        </a>
+           
+
+        <a href="https://copilot.microsoft.com/?q={copilot_prompt_encoded}" target="_blank" class="quick-btn" style="--qc:#0078d4;">
+        <span class="qb-icon">🧠</span><span class="qb-name">Copilot</span><span class="qb-arr">↗</span>
+        </a>
+
+        <a href="https://gemini.google.com/app?q={gemini_prompt_encoded}" target="_blank" class="quick-btn" style="--qc:#4285f4;">
+        <span class="qb-icon">✨</span><span class="qb-name">Gemini</span><span class="qb-arr">↗</span>
+        </a>
+
+
+        """
+
+        # Litigation result cards
+if "litigation_results" not in locals():
+            litigation_results = []
+
+lit_cards_html = ""
+for i, res in enumerate(litigation_results):
+            delay = i * 0.07
+            lit_cards_html += f"""
+            <a href="{res['link']}" target="_blank" class="news-card" style="animation-delay:{delay}s">
+              <div class="news-card-inner">
+                <div class="news-bar"></div>
+                <div class="news-body">
+                  <div class="news-meta">
+                    <span class="news-source">Indian Kanoon</span>
+                    <span class="news-dot">·</span>
+                    <span class="news-date">Court Record</span>
+                  </div>
+                  <div class="news-title">{res['title']}</div>
+                  <div class="news-cta">View judgment <span class="news-arrow">→</span></div>
+                </div>
+                <div class="news-badge">⚖️</div>
+              </div>
+            </a>
+            """
+
+lt_empty = "<div class='no-news'>No instant records found. Use the databases above.</div>" if not lit_cards_html else ""
+lt_num = max(len(litigation_results), 1)
+lt_h = min(180 + lt_num * 100, 680)
+
+if not litigation_results:
+            lt_h = 220
+
+import streamlit.components.v1 as components_lit
+lt_bg_card = "rgba(255,255,255,0.05)" if dark_mode else "rgba(255,255,255,0.88)" 
+lt_card_bdr = "rgba(255,255,255,0.10)" if dark_mode else "rgba(0,0,0,0.10)"
+lt_entry_bg = "rgba(255,255,255,0.04)" if dark_mode else "#ffffff"
+lt_entry_bdr = "rgba(255,255,255,0.08)" if dark_mode else "rgba(0,0,0,0.08)"
+lt_title_c = "#f0f0f0" if dark_mode else "#111111"
+lt_meta_c = "#6b7a8d" if dark_mode else "#888888"
+lt_hover_bg = "rgba(255,255,255,0.07)" if dark_mode else "rgba(0,0,0,0.03)"
+
+lt_empty = "<div class='no-news'>No instant records found. Use the databases above.</div>" if not lit_cards_html else ""
+lt_num = max(len(litigation_results), 1)
+lt_h = 220 if not litigation_results else min(180 + lt_num * 100, 680)
+
+lit_html = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+body {{
+    font-family: Inter, sans-serif;
+    background: {lt_bg_card};
+    border: 1px solid {lt_card_bdr};
+    border-radius: 20px;
+    padding: 22px;
+    overflow: visible;
+}}
+.sec-title {{
+    font-size: 18px;
+    font-weight: 800;
+    color: #30b2c9;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}}
+.sec-title::after {{
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(0,223,216,0.35), transparent);
+}}
+.quick-row {{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}}
+.quick-btn {{
+    flex: 1;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: color-mix(in srgb, var(--qc) 18%, transparent);
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}}
+.quick-btn:hover {{
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.28), 0 0 0 1px var(--qc);
+}}
+.qb-icon {{ font-size: 15px; }}
+.qb-name {{
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    white-space: nowrap;
+}}
+.qb-arr {{
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    margin-left: auto;
+}}
+.divider {{
+    height: 1px;
+    background: linear-gradient(to right, rgba(0,223,216,0.2), transparent);
+    margin-bottom: 14px;
+}}
+.news-feed {{
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}}
+.news-card {{
+    border-radius: 12px;
+    background: {lt_entry_bg};
+    border: 1px solid {lt_entry_bdr};
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    opacity: 0;
+    transform: translateX(-16px);
+    animation: slideIn 0.45s ease forwards;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}}
+.news-card:hover {{
+    background: {lt_hover_bg};
+    transform: translateX(4px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.22), -3px 0 0 #e74c1e;
+}}
+@keyframes slideIn {{
+    to {{ opacity: 1; transform: translateX(0); }}
+}}
+.news-card-inner {{
+    display: flex;
+    align-items: stretch;
+}}
+.news-bar {{
+    width: 3px;
+    background: linear-gradient(180deg, #e74c1e, #d35400);
+}}
+.news-body {{
+    flex: 1;
+    padding: 11px 10px 11px 13px;
+}}
+.news-meta {{
+    display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+}}
+.news-source {{
+    font-size: 10px;
+    font-weight: 700;
+    color: #e67e22;
+    text-transform: uppercase;
+}}
+.news-dot,
+.news-date {{
+    font-size: 10px;
+    color: {lt_meta_c};
+}}
+.news-title {{
+    font-size: 12.5px;
+    font-weight: 600;
+    color: {lt_title_c};
+    line-height: 1.45;
+}}
+.news-cta {{
+    font-size: 10.5px;
+    font-weight: 600;
+    color: rgba(230,126,34,0.7);
+    margin-top: 5px;
+}}
+.news-badge {{
+    font-size: 18px;
+    padding: 10px 12px 10px 0;
+    display: flex;
+    align-items: center;
+    opacity: 0.45;
+}}
+.no-news {{
+    text-align: center;
+    padding: 20px;
+    font-size: 12.5px;
+    color: {lt_meta_c};
+}}
+</style>
+</head>
+<body>
+    <div class="sec-title">⚖️ Litigation &amp; Court Records</div>
+    <div class="quick-row">{quick_btns_html}</div>
+    <div class="divider"></div>
+    <div class="news-feed">{lit_cards_html if lit_cards_html else lt_empty}</div>
+</body>
+</html>"""
+
+components_lit.html(lit_html, height=lt_h, scrolling=True)
+
+with r_col:
+        import streamlit.components.v1 as components_news
+
+        news_items = []
+        for n in news:
+            link_tag = n.find("link")
+            title_tag = n.find("title")
+            source_tag = n.find("source")
+            pub_tag = n.find("pubDate")
+
+            if link_tag and title_tag:
+                news_items.append({
+                    "href": link_tag.get_text(strip=True),
+                    "title": title_tag.get_text(strip=True).replace('"', "&quot;"),
+                    "source": source_tag.get_text(strip=True) if source_tag else "News",
+                    "date": pub_tag.get_text(strip=True)[:16] if pub_tag else ""
+                })
+
+        news_cards_html = ""
+        for i, item in enumerate(news_items):
+            news_cards_html += f"""
+            <a href="{item['href']}" target="_blank" class="news-card" style="animation-delay:{i * 0.07}s">
+                <div class="news-card-inner">
+                    <div class="news-bar"></div>
+                    <div class="news-body">
+                        <div class="news-meta">
+                            <span class="news-source">{item['source']}</span>
+                            <span class="news-dot">·</span>
+                            <span class="news-date">{item['date']}</span>
+                        </div>
+                        <div class="news-title">{item['title']}</div>
+                        <div class="news-cta">Read article →</div>
+                    </div>
+                    <div class="news-badge">📰</div>
+                </div>
+            </a>"""
+
+        empty_html = "<div class='no-news'>No recent news found for this search.</div>" if not news_cards_html else ""
+
+        nw_bg_card = "rgba(255,255,255,0.05)" if dark_mode else "rgba(255,255,255,0.88)"
+        nw_card_bdr = "rgba(255,255,255,0.10)" if dark_mode else "rgba(0,0,0,0.10)"
+        nw_entry_bg = "rgba(255,255,255,0.04)" if dark_mode else "#ffffff"
+        nw_entry_bdr = "rgba(255,255,255,0.08)" if dark_mode else "rgba(0,0,0,0.08)"
+        nw_title_c = "#f0f0f0" if dark_mode else "#111111"
+        nw_meta_c = "#6b7a8d" if dark_mode else "#888888"
+        iframe_h = min(80 + max(len(news_items), 1) * 105, 823)
+
+        news_html = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+body {{
+    font-family: Inter, sans-serif;
+    background: {nw_bg_card};
+    border: 1px solid {nw_card_bdr};
+    border-radius: 20px;
+    padding: 22px;
+}}
+.sec-title {{
+    font-size: 18px;
+    font-weight: 800;
+    color: #30b2c9;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}}
+.live-dot {{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #00dfd8;
+    animation: blink 1.4s ease-in-out infinite;
+}}
+@keyframes blink {{
+    50% {{ opacity: 0.3; transform: scale(0.7); }}
+}}
+.news-feed {{
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}}
+.news-card {{
+    border-radius: 12px;
+    background: {nw_entry_bg};
+    border: 1px solid {nw_entry_bdr};
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    opacity: 0;
+    transform: translateX(-16px);
+    animation: slideIn 0.45s ease forwards;
+}}
+@keyframes slideIn {{
+    to {{ opacity: 1; transform: translateX(0); }}
+}}
+.news-card-inner {{
+    display: flex;
+    align-items: stretch;
+}}
+.news-bar {{
+    width: 3px;
+    background: linear-gradient(180deg, #00dfd8, #30b2c9);
+}}
+.news-body {{
+    flex: 1;
+    padding: 11px 10px 11px 13px;
+}}
+.news-meta {{
+    display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+}}
+.news-source {{
+    font-size: 10px;
+    font-weight: 700;
+    color: #00dfd8;
+    text-transform: uppercase;
+}}
+.news-dot,
+.news-date {{
+    font-size: 10px;
+    color: {nw_meta_c};
+}}
+.news-title {{
+    font-size: 12.5px;
+    font-weight: 600;
+    color: {nw_title_c};
+    line-height: 1.45;
+}}
+.news-cta {{
+    font-size: 10.5px;
+    font-weight: 600;
+    color: rgba(0,223,216,0.7);
+    margin-top: 5px;
+}}
+.news-badge {{
+    font-size: 18px;
+    padding: 10px 12px 10px 0;
+    display: flex;
+    align-items: center;
+    opacity: 0.45;
+}}
+.no-news {{
+    text-align: center;
+    padding: 30px;
+    font-size: 13px;
+    color: {nw_meta_c};
+}}
+</style>
+</head>
+<body>
+    <div class="sec-title"><span class="live-dot"></span>Media Coverage</div>
+    <div class="news-feed">{news_cards_html if news_cards_html else empty_html}</div>
+</body>
+</html>"""
+
+        components_news.html(news_html, height=iframe_h, scrolling=True)
+
+       # ── Compliance Section — rendered via st.components.v1.html() ─────────────
 import streamlit.components.v1 as components
 bg_card = "rgba(255,255,255,0.05)" if dark_mode else "rgba(255,255,255,0.85)"
 db_entry_bg = "rgba(255,255,255,0.06)" if dark_mode else "#ffffff"
@@ -1471,28 +1719,9 @@ def db_card(icon, icon_bg, name, desc, badge, badge_color, url):
           </div>
         </a>"""
 
-t1 = (
-        db_card("🇺🇸", "rgba(13,71,161,0.3)", "OFAC SDN List",
-                "U.S. Treasury sanctions — Specially Designated Nationals & blocked persons.",
-                "USA · Treasury", "#0d47a1", "https://sanctionssearch.ofac.treas.gov/") +
-        db_card("🌐", "rgba(243,156,18,0.3)", "OpenSanctions",
-                "Aggregated global sanctions, PEPs and watchlists from 200+ sources worldwide.",
-                "Global · Open Data", "#c87f0a", f"https://www.opensanctions.org/search/?q={q_encoded}") +
-        db_card("🔍", "rgba(22,160,133,0.3)", "Dilisense",
-                "Real-time AML/KYC screening across sanctions, PEPs and adverse-media databases.",
-                "Global · AML/KYC", "#16a085", f"https://dilisense.com/en/search/{q_raw}") +
-        db_card("⚖️", "rgba(127,140,141,0.3)", "FCPA Enforcement",
-                "SEC Foreign Corrupt Practices Act enforcement actions and case database.",
-                "USA · SEC", "#5d6d7e", "https://www.sec.gov/enforce/sec-enforcement-actions-fcpa-cases") +
-        db_card("🇪🇺", "rgba(41,128,185,0.3)", "EU Sanctions Map",
-                "Official European Union consolidated list of persons & entities under sanctions.",
-                "EU · EEAS", "#1a6fa0", "https://www.sanctionsmap.eu/") +
-        db_card("🌏", "rgba(192,57,43,0.3)", "UN Sanctions",
-                "United Nations Security Council consolidated sanctions list.",
-                "Global · UN", "#c0392b", "https://www.un.org/securitycouncil/content/un-sc-consolidated-list")
-    )
 
-t2 = (
+
+t1 = (
         db_card("📈", "rgba(41,128,185,0.3)", "SEBI Orders",
                 "Securities & Exchange Board of India enforcement orders, adjudication & appeal rulings.",
                 "India · SEBI", "#2471a3",
@@ -1529,8 +1758,40 @@ t2 = (
                 "India · DRT/DRAT", "#884ea0", "https://drt.gov.in/") +
         db_card("🌿", "rgba(39,174,96,0.3)", "NGT",
                 "National Green Tribunal cases, orders and environmental compliance disputes.",
-                "India · NGT", "#239b56", "https://greentribunal.gov.in/")
+                "India · NGT", "#239b56", "https://greentribunal.gov.in/") +
+        db_card("🏗️", "rgba(211,84,0,0.3)", "RERA Authorities",
+                "State and UT Real Estate Regulatory Authority portals for project, promoter and complaint checks.",
+                "India · RERA", "#ba4a00",
+                "https://rera.mohua.gov.in/real-estate-regulatory-authorities-of-states-uts.html")
     )
+
+t2 = (
+        db_card("🇺🇸", "rgba(13,71,161,0.3)", "OFAC SDN List",
+                "U.S. Treasury sanctions — Specially Designated Nationals & blocked persons.",
+                "USA · Treasury", "#0d47a1", "https://sanctionssearch.ofac.treas.gov/") +
+        db_card("🌐", "rgba(243,156,18,0.3)", "OpenSanctions",
+                "Aggregated global sanctions, PEPs and watchlists from 200+ sources worldwide.",
+                "Global · Open Data", "#c87f0a", f"https://www.opensanctions.org/search/?q={q_encoded}") +
+        db_card("🔍", "rgba(22,160,133,0.3)", "Dilisense",
+                "Real-time AML/KYC screening across sanctions, PEPs and adverse-media databases.",
+                "Global · AML/KYC", "#16a085", f"https://dilisense.com/en/search/{q_raw}") +
+        db_card("⚖️", "rgba(127,140,141,0.3)", "FCPA Enforcement",
+                "SEC Foreign Corrupt Practices Act enforcement actions and case database.",
+                "USA · SEC", "#5d6d7e", "https://www.sec.gov/enforce/sec-enforcement-actions-fcpa-cases") +
+        db_card("🇪🇺", "rgba(41,128,185,0.3)", "EU Sanctions Map",
+                "Official European Union consolidated list of persons & entities under sanctions.",
+                "EU · EEAS", "#1a6fa0", "https://www.sanctionsmap.eu/") +
+        db_card("🌏", "rgba(192,57,43,0.3)", "UN Sanctions",
+                "United Nations Security Council consolidated sanctions list.",
+                "Global · UN", "#c0392b", "https://www.un.org/securitycouncil/content/un-sc-consolidated-list") +
+        db_card("🛡️", "rgba(0,223,216,0.22)", "NameScan",
+                "AML screening for sanctions, PEPs, watchlists and adverse media risk checks.",
+                "Global · AML/KYC", "#00a6a6", "https://namescan.io/") +
+        db_card("🚨", "rgba(192,57,43,0.3)", "Interpol",
+                "International police notices and wanted-person checks for cross-border criminal risk screening.",
+                "Global · Law Enforcement", "#c0392b",
+                f"https://www.google.com/search?q=site:interpol.int+{q_encoded}")
+)
 
 
 t3 = (
@@ -1547,6 +1808,9 @@ t3 = (
         db_card("🏢", "rgba(0,58,155,0.3)", "MCA 21 Portal",
                 "Ministry of Corporate Affairs — company master data, charges, directors & filings.",
                 "India · MCA", "#003a9b", "https://www.mca.gov.in/") +
+        db_card("🏢", "rgba(111,66,193,0.3)", "Zauba Corp",
+                "Indian company, director, CIN, charges and corporate filing lookup through Zauba Corp.",
+                "India · Corporate", "#6f42c1", f"https://www.google.com/search?q=site:zaubacorp.com+{q_encoded}") +
         db_card("📊", "rgba(0,119,181,0.3)", "Bloomberg FIGI",
                 "Open global financial instrument identifier and entity lookup database.",
                 "Global · Finance", "#0077b5", f"https://www.openfigi.com/search#!?query={q_raw}") +
@@ -1718,8 +1982,8 @@ compliance_html = f"""<!DOCTYPE html>
   <div class="sec-title">Compliance &amp; Database</div>
 
   <div class="tab-bar">
-    <button class="tab-btn active" data-panel="p1">🌍 Global Sanctions</button>
-    <button class="tab-btn" data-panel="p2">⚖️ Indian Regulatory</button>
+    <button class="tab-btn active" data-panel="p1">Indian Regulatory</button>
+    <button class="tab-btn" data-panel="p2">🌍 Global Sanctions</button>
     <button class="tab-btn" data-panel="p3">🏢 Corporate &amp; Financial</button>
     <button class="tab-btn" data-panel="p4">🛠️ Statutory &amp; Tax</button>
   </div>
@@ -1748,6 +2012,178 @@ compliance_html = f"""<!DOCTYPE html>
 </html>"""
 
 components.html(compliance_html, height=920, scrolling=False)
+
+# ── Keyword Intelligence Searches ─────────────────────────────────────────────
+search_labels = [
+    "Google Reviews",
+    "Magicbricks Presence",
+    "99acres Presence",
+    "Housing.com Presence",
+    "Facebook Presence",
+    "Twitter / X Presence",
+    "Instagram Presence",
+    "Mobile Number Trace",
+    "PAN Number Trace",
+    "DIN Trace",
+    "BJP Association",
+    "Congress Association",
+    "MyNeta Reference",
+    "Donation Reference",
+    "SEC Reference",
+    "Political Exposure",
+    "Review Mentions",
+    "News Mentions",
+    "Twitter Adverse Signals",
+    "Facebook Adverse Signals",
+    "Instagram Adverse Signals",
+    "MyNeta Mentions",
+    "Glassdoor Adverse Signals",
+    "Indeed Employment Mentions",
+    "LinkedIn Product Reviews",
+    "LinkedIn Adverse Signals",
+    "Cash Flow / Accrual Signals",
+    "Complaint Mentions",
+    "CIN / PAN Trace",
+    "Fraud / Bribery Signals",
+    "Fake / Poor Quality Signals",
+    "Default / Insolvency Signals",
+    "Instagram Negative Signals",
+    "Money Laundering / Crime Signals",
+    "EOW References",
+    "ED References",
+    "GST References",
+    "News Mentions",
+    "Company Law Board References",
+    "IBBI / Insolvency References",
+    "FIR / Police References",
+    "Compliance / Labour Concerns",
+    "Layoff / Strike Signals",
+    "Vigilance / Scandal Signals",
+    "Debt / Dishonour Signals",
+    "Scam / Poor Quality Signals",
+    "Instagram Scam Signals",
+    "Financial Profile Signals",
+    "Business Activity Signals",
+    "News / Fraud Concern Signals",
+    "Bribery / Case Signals",
+    "Penalty / Corruption Signals",
+    "Business Transfer Agreement",
+]
+
+
+
+keyword_cards_html = ""
+
+for i, query in enumerate(keyword_searches):
+    url = f"https://www.google.com/search?q={urllib.parse.quote(query)}"
+    label = search_labels[i] if i < len(search_labels) else f"Search Query {i + 1}"
+
+    safe_label = label.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    safe_query = query.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+    keyword_cards_html += f"""
+    <a href="{url}" target="_blank" class="kw-card" style="animation-delay:{i * 0.015}s" title="{safe_query}">
+        <span class="kw-index">{i + 1:02d}</span>
+        <span class="kw-text">{safe_label}</span>
+        <span class="kw-arrow">↗</span>
+    </a>
+    """
+
+keyword_html = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+
+body {{
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 20px;
+    padding: 24px;
+    color: #f0f0f0;
+}}
+
+.sec-title {{
+    font-size: 20px;
+    font-weight: 800;
+    color: #30b2c9;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}}
+
+.sec-title::after {{
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(0,223,216,0.35), transparent);
+}}
+
+.kw-grid {{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 10px;
+    padding-right: 6px;
+}}
+
+.kw-card {{
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 13px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(255,255,255,0.08);
+    text-decoration: none;
+    color: #f0f0f0;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: kwIn 0.35s ease forwards;
+    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}}
+
+.kw-card:hover {{
+    transform: translateY(-3px);
+    background: rgba(0,223,216,0.08);
+    border-color: rgba(0,223,216,0.35);
+}}
+
+@keyframes kwIn {{
+    to {{ opacity: 1; transform: translateY(0); }}
+}}
+
+.kw-index {{
+    font-size: 10px;
+    font-weight: 800;
+    color: #00dfd8;
+    min-width: 24px;
+    padding-top: 2px;
+}}
+
+.kw-text {{
+    flex: 1;
+    font-size: 12px;
+    line-height: 1.45;
+    color: rgba(255,255,255,0.88);
+    overflow-wrap: anywhere;
+}}
+
+.kw-arrow {{
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+}}
+</style>
+</head>
+<body>
+    <div class="sec-title">🧭 Keyword Search Matrix</div>
+    <div class="kw-grid">{keyword_cards_html}</div>
+</body>
+</html>"""
+
+components.html(keyword_html, height=1050, scrolling=False)
 
 
 # ── Footer ────────────────────────────────────────────────────────────────────
@@ -1812,16 +2248,5 @@ st.markdown(f"""
     </span>
 </div>
 """, unsafe_allow_html=True)
-
-
-
-
-
-
-
-
-
-
-
 
 
