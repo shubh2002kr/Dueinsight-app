@@ -1982,7 +1982,7 @@ compliance_html = f"""<!DOCTYPE html>
   <div class="sec-title">Compliance &amp; Database</div>
 
   <div class="tab-bar">
-    <button class="tab-btn active" data-panel="p1">Indian Regulatory</button>
+    <button class="tab-btn active" data-panel="p1">⚖️ Indian Regulatory</button>
     <button class="tab-btn" data-panel="p2">🌍 Global Sanctions</button>
     <button class="tab-btn" data-panel="p3">🏢 Corporate &amp; Financial</button>
     <button class="tab-btn" data-panel="p4">🛠️ Statutory &amp; Tax</button>
