@@ -91,8 +91,8 @@ Designed for:
 
 ### 1️⃣ Clone Repository
 ```bash
-git clone https://github.com/your-username/dueinsight-dd-workstation.git
-cd dueinsight-dd-workstation
+git clone https://github.com/shubh2002kr/Dueinsight-app.git
+cd Dueinsight-app
 ```
 
 ### 2️⃣ Install Dependencies
