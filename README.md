@@ -170,18 +170,9 @@ https://streamlit.io/cloud
 ## 👨‍💻 Author
 
 **Shubh Kumar**  
-Computer Science Engineer | Data & Intelligence Enthusiast
+Computer Science Engineer
 
 ---
 
-## ⭐ Future Improvements
 
-- PDF Report Export
-- AI-generated Risk Scores
-- Automated Court Case Summaries
-- OCR-based Document Analysis
-- Watchlist Monitoring
-- Real-time Compliance Alerts
-
----
 
