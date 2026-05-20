@@ -705,6 +705,8 @@ with l_col:
         pr_card_bdr = "rgba(255,255,255,0.10)" if dark_mode else "rgba(0,0,0,0.10)"
 
         profile_tabs = [
+              ("🌐", "Google Search", "#4285f4", "rgba(66,133,244,0.35)",
+               f"https://www.google.com/search?q={q_encoded}"),
             ("🔍", "About Profile",    "#34495e", "rgba(52,73,94,0.35)",
              f"https://www.google.com/search?q=allintitle:{q_encoded}+biography"),
             ("📇", "Contacts",         "#3498db", "rgba(52,152,219,0.35)",
@@ -1533,6 +1535,55 @@ components_lit.html(lit_html, height=lt_h, scrolling=True)
 with r_col:
         import streamlit.components.v1 as components_news
 
+        def classify_adverse_media(title, source=""):
+            text = f"{title} {source}".lower()
+
+            buckets = {
+                "Fraud": [
+                    "fraud", "scam", "fake", "forgery", "cheating", "bribe",
+                    "bribery", "corruption", "money laundering", "shell company"
+                ],
+                "Default": [
+                    "default", "wilful defaulter", "npa", "loan default",
+                    "debt", "dishonour", "recovery", "unpaid dues"
+                ],
+                "Insolvency": [
+                    "insolvency", "bankruptcy", "ibc", "cirp", "liquidation",
+                    "nclt", "restructuring"
+                ],
+                "Tax": [
+                    "gst", "income tax", "tax", "tax demand", "tax raid",
+                    "assessment", "penalty", "dggi", "customs"
+                ],
+                "Regulatory": [
+                    "sebi", "rbi", "mca", "roc", "sfio", "ed", "cbi",
+                    "cci", "fema", "enforcement"
+                ],
+                "Political": [
+                    "bjp", "congress", "politic", "election", "minister",
+                    "mla", "mp ", "donation", "myneta"
+                ],
+                "Labour": [
+                    "layoff", "strike", "employee", "labour", "wage",
+                    "pf", "epfo", "esic", "termination"
+                ],
+                "Consumer": [
+                    "consumer", "complaint", "refund", "poor quality",
+                    "buyer", "rera", "service issue"
+                ],
+                "Reputation": [
+                    "controversy", "adverse", "criticism", "bad review",
+                    "backlash", "allegation", "accused"
+                ],
+            }
+
+            matched = []
+            for bucket, keywords in buckets.items():
+                if any(keyword in text for keyword in keywords):
+                    matched.append(bucket)
+
+            return matched or ["General"]
+
         news_items = []
         for n in news:
             link_tag = n.find("link")
@@ -1541,15 +1592,21 @@ with r_col:
             pub_tag = n.find("pubDate")
 
             if link_tag and title_tag:
+                title_clean = title_tag.get_text(strip=True)
+                source_clean = source_tag.get_text(strip=True) if source_tag else "News"
+
                 news_items.append({
                     "href": link_tag.get_text(strip=True),
-                    "title": title_tag.get_text(strip=True).replace('"', "&quot;"),
-                    "source": source_tag.get_text(strip=True) if source_tag else "News",
-                    "date": pub_tag.get_text(strip=True)[:16] if pub_tag else ""
+                    "title": title_clean.replace('"', "&quot;"),
+                    "source": source_clean,
+                    "date": pub_tag.get_text(strip=True)[:16] if pub_tag else "",
+                    "tags": classify_adverse_media(title_clean, source_clean)
                 })
 
         news_cards_html = ""
         for i, item in enumerate(news_items):
+            tag_html = "".join([f'<span class="risk-tag">{tag}</span>' for tag in item["tags"]])
+
             news_cards_html += f"""
             <a href="{item['href']}" target="_blank" class="news-card" style="animation-delay:{i * 0.07}s">
                 <div class="news-card-inner">
@@ -1561,6 +1618,7 @@ with r_col:
                             <span class="news-date">{item['date']}</span>
                         </div>
                         <div class="news-title">{item['title']}</div>
+                        <div class="risk-tags">{tag_html}</div>
                         <div class="news-cta">Read article →</div>
                     </div>
                     <div class="news-badge">📰</div>
@@ -1575,7 +1633,7 @@ with r_col:
         nw_entry_bdr = "rgba(255,255,255,0.08)" if dark_mode else "rgba(0,0,0,0.08)"
         nw_title_c = "#f0f0f0" if dark_mode else "#111111"
         nw_meta_c = "#6b7a8d" if dark_mode else "#888888"
-        iframe_h = min(80 + max(len(news_items), 1) * 105, 823)
+        iframe_h = min(120 + max(len(news_items), 1) * 125, 900)
 
         news_html = f"""<!DOCTYPE html>
 <html>
@@ -1583,6 +1641,7 @@ with r_col:
 <meta charset="utf-8">
 <style>
 * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+
 body {{
     font-family: Inter, sans-serif;
     background: {nw_bg_card};
@@ -1590,6 +1649,7 @@ body {{
     border-radius: 20px;
     padding: 22px;
 }}
+
 .sec-title {{
     font-size: 18px;
     font-weight: 800;
@@ -1599,6 +1659,7 @@ body {{
     align-items: center;
     gap: 10px;
 }}
+
 .live-dot {{
     width: 7px;
     height: 7px;
@@ -1606,15 +1667,21 @@ body {{
     background: #00dfd8;
     animation: blink 1.4s ease-in-out infinite;
 }}
+
 @keyframes blink {{
     50% {{ opacity: 0.3; transform: scale(0.7); }}
 }}
+
 .news-feed {{
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 9px;
 }}
+
 .news-card {{
+    width: 100%;
+    min-width: 0;
     border-radius: 12px;
     background: {nw_entry_bg};
     border: 1px solid {nw_entry_bdr};
@@ -1625,49 +1692,83 @@ body {{
     transform: translateX(-16px);
     animation: slideIn 0.45s ease forwards;
 }}
+
 @keyframes slideIn {{
     to {{ opacity: 1; transform: translateX(0); }}
 }}
+
 .news-card-inner {{
+    width: 100%;
+    min-width: 0;
     display: flex;
     align-items: stretch;
 }}
+
 .news-bar {{
     width: 3px;
     background: linear-gradient(180deg, #00dfd8, #30b2c9);
 }}
+
 .news-body {{
     flex: 1;
+    min-width: 0;
     padding: 11px 10px 11px 13px;
 }}
+
 .news-meta {{
     display: flex;
     gap: 5px;
     margin-bottom: 5px;
 }}
+
 .news-source {{
     font-size: 10px;
     font-weight: 700;
     color: #00dfd8;
     text-transform: uppercase;
 }}
+
 .news-dot,
 .news-date {{
     font-size: 10px;
     color: {nw_meta_c};
 }}
+
 .news-title {{
     font-size: 12.5px;
     font-weight: 600;
     color: {nw_title_c};
     line-height: 1.45;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
 }}
+
+.risk-tags {{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 7px;
+}}
+
+.risk-tag {{
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #071014;
+    background: #00dfd8;
+    border-radius: 999px;
+    padding: 3px 7px;
+}}
+
 .news-cta {{
     font-size: 10.5px;
     font-weight: 600;
     color: rgba(0,223,216,0.7);
-    margin-top: 5px;
+    margin-top: 6px;
 }}
+
 .news-badge {{
     font-size: 18px;
     padding: 10px 12px 10px 0;
@@ -1675,6 +1776,7 @@ body {{
     align-items: center;
     opacity: 0.45;
 }}
+
 .no-news {{
     text-align: center;
     padding: 30px;
@@ -1690,6 +1792,7 @@ body {{
 </html>"""
 
         components_news.html(news_html, height=iframe_h, scrolling=True)
+
 
        # ── Compliance Section — rendered via st.components.v1.html() ─────────────
 import streamlit.components.v1 as components
@@ -1982,7 +2085,7 @@ compliance_html = f"""<!DOCTYPE html>
   <div class="sec-title">Compliance &amp; Database</div>
 
   <div class="tab-bar">
-    <button class="tab-btn active" data-panel="p1">⚖️ Indian Regulatory</button>
+    <button class="tab-btn active" data-panel="p1">Indian Regulatory</button>
     <button class="tab-btn" data-panel="p2">🌍 Global Sanctions</button>
     <button class="tab-btn" data-panel="p3">🏢 Corporate &amp; Financial</button>
     <button class="tab-btn" data-panel="p4">🛠️ Statutory &amp; Tax</button>
@@ -2185,6 +2288,230 @@ body {{
 
 components.html(keyword_html, height=1050, scrolling=False)
 
+# ── Due Diligence Completion Matrix ───────────────────────────────────────────
+completion_items = [
+    "Profile Research",
+    "Digital Footprint",
+    "Media Coverage",
+    "Litigation & Court Records",
+    "Indian Regulatory Review",
+    "Global Sanctions Screening",
+    "Corporate & Financial Review",
+    "Statutory & Tax Review",
+    "Keyword Search Matrix",
+]
+
+completion_cards_html = ""
+
+for i, item in enumerate(completion_items):
+    completion_cards_html += f"""
+    <label class="cm-card">
+        <span class="cm-index">{i + 1:02d}</span>
+        <span class="cm-text">{item}</span>
+        <input type="checkbox" class="cm-check" data-item="{i}">
+        <span class="cm-tick">✓</span>
+    </label>
+    """
+
+completion_html = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+
+body {{
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 20px;
+    padding: 24px;
+    color: #f0f0f0;
+}}
+
+.cm-title {{
+    font-size: 20px;
+    font-weight: 800;
+    color: #30b2c9;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}}
+
+.cm-title::after {{
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(0,223,216,0.35), transparent);
+}}
+
+.cm-top {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}}
+
+.cm-meta {{
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.76);
+}}
+
+.cm-score {{
+    font-size: 24px;
+    font-weight: 900;
+    color: #00dfd8;
+}}
+
+.cm-track {{
+    width: 100%;
+    height: 9px;
+    border-radius: 999px;   
+    background: rgba(255,255,255,0.08);
+    overflow: hidden;
+    margin-bottom: 18px;
+}}
+
+.cm-fill {{
+    width: 0%;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #30b2c9, #00dfd8);
+    box-shadow: 0 0 18px rgba(0,223,216,0.30);
+    transition: width 0.45s ease;
+}}
+
+.cm-grid {{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 10px;
+}}
+
+.cm-card {{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 13px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #f0f0f0;
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}}
+
+.cm-card:hover {{
+    transform: translateY(-3px);
+    background: rgba(0,223,216,0.08);
+    border-color: rgba(0,223,216,0.35);
+}}
+
+.cm-card:has(.cm-check:checked) {{
+    background: rgba(0,223,216,0.10);
+    border-color: rgba(0,223,216,0.45);
+}}
+
+.cm-index {{
+    font-size: 10px;
+    font-weight: 900;
+    color: #00dfd8;
+    min-width: 24px;
+}}
+
+.cm-text {{
+    flex: 1;
+    font-size: 12px;
+    line-height: 1.45;
+    font-weight: 700;
+    color: rgba(255,255,255,0.90);
+}}
+
+.cm-check {{
+    display: none;
+}}
+
+.cm-tick {{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.22);
+    color: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    transition: all 0.18s ease;
+}}
+
+.cm-check:checked + .cm-tick {{
+    background: #00dfd8;
+    border-color: #00dfd8;
+    color: #071014;
+    box-shadow: 0 0 14px rgba(0,223,216,0.45);
+}}
+</style>
+</head>
+<body>
+    <div class="cm-title">📋 Due Diligence Completion Matrix</div>
+
+    <div class="cm-top">
+        <div class="cm-meta"><span id="cmDone">0</span> of {len(completion_items)} review modules completed</div>
+        <div class="cm-score"><span id="cmPct">0</span>%</div>
+    </div>
+
+    <div class="cm-track">
+        <div class="cm-fill" id="cmFill"></div>
+    </div>
+
+    <div class="cm-grid">
+        {completion_cards_html}
+    </div>
+
+<script>
+const checks = document.querySelectorAll(".cm-check");
+const doneEl = document.getElementById("cmDone");
+const pctEl = document.getElementById("cmPct");
+const fillEl = document.getElementById("cmFill");
+const storageKey = "dueinsight_completion_matrix";
+
+function loadState() {{
+    const saved = JSON.parse(localStorage.getItem(storageKey) || "{{}}");
+    checks.forEach((check) => {{
+        check.checked = !!saved[check.dataset.item];
+    }});
+}}
+
+function updateProgress() {{
+    const total = checks.length;
+    const done = Array.from(checks).filter(c => c.checked).length;
+    const pct = Math.round((done / total) * 100);
+
+    doneEl.textContent = done;
+    pctEl.textContent = pct;
+    fillEl.style.width = pct + "%";
+
+    const saved = {{}};
+    checks.forEach((check) => {{
+        saved[check.dataset.item] = check.checked;
+    }});
+    localStorage.setItem(storageKey, JSON.stringify(saved));
+}}
+
+checks.forEach((check) => {{
+    check.addEventListener("change", updateProgress);
+}});
+
+loadState();
+updateProgress();
+</script>
+</body>
+</html>"""
+
+components.html(completion_html, height=430, scrolling=False)
+
 
 # ── Footer ────────────────────────────────────────────────────────────────────
 footer_text = "#555" if not dark_mode else "rgba(255,255,255,0.25)"
@@ -2248,6 +2575,8 @@ st.markdown(f"""
     </span>
 </div>
 """, unsafe_allow_html=True)
+
+
 
 
 
