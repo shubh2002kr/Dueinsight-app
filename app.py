@@ -1,4 +1,4 @@
-import streamlit as st
+ort streamlit as st
 import requests
 from bs4 import BeautifulSoup
 import urllib.parse
